@@ -1,0 +1,674 @@
+/*
+  SABIZU LP のスタイル。
+  配色・書体は wolf-g.jp（株式会社Wolf コーポレートサイト）の
+  tailwind.config.ts / app/globals.css から移植した値をそのまま使っている。
+  ビルド工程を持たないLPのため、Tailwindではなく素のCSSで書いている。
+
+  ・数字と日本語に font-display（Playfair Display）を使わないこと。
+    英字専用の飾り書体で、数字は線が細く読みづらく、日本語は明朝にフォールバックする。
+    数字は .stat-num、日本語は既定のゴシック。Playfair はロゴと英字ラベル専用。
+  ・gold（#8a6d17）は白地でも生成り地でもWCAG AAを満たす値。明るくしないこと。
+  ・ボタンは cta（#ffc400）を使う。gold と近い色をボタンに使うと押せる要素が識別できなくなる。
+*/
+
+:root {
+  --ink: #0a0a0a;
+  --ink-50: #fafafa;
+  --ink-100: #e5e5e5;
+  --ink-300: #6b6b6b;
+  --ink-800: #1a1a1a;
+  --ink-950: #0a0a0a;
+  --paper: #ffffff;
+  --paper-tint: #f7f6f2;
+  --gold: #8a6d17;
+  --gold-light: #d4af37;
+  --gold-dark: #7a6116;
+  --cta: #ffc400;
+  --cta-light: #ffd747;
+  --font-sans: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Yu Gothic", Meiryo, sans-serif;
+  --font-display: "Playfair Display", serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 追従ヘッダーの高さぶん、アンカー移動先を下げる */
+  scroll-padding-top: 88px;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-950);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  /* スマホの固定CTAバーが本文の末尾を隠さないための余白 */
+  padding-bottom: 96px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------- レイアウト ---------- */
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 72px 0;
+}
+
+.section--tint {
+  background: var(--paper-tint);
+}
+
+.narrow {
+  max-width: 760px;
+}
+
+.medium {
+  max-width: 896px;
+}
+
+/* ---------- 文字 ---------- */
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.stat-num {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* 日本語の大見出しは行間を詰めすぎると、次の行の文字と重なって見える */
+h1 {
+  font-size: clamp(26px, 5vw, 40px);
+  line-height: 1.6;
+}
+
+h2 {
+  font-size: clamp(22px, 3.6vw, 30px);
+}
+
+h3 {
+  font-size: clamp(19px, 2.8vw, 24px);
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+p {
+  margin: 0;
+}
+
+.lead {
+  font-size: 17px;
+  color: var(--ink-800);
+}
+
+.muted {
+  color: var(--ink-300);
+}
+
+.note {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-300);
+}
+
+.divider-gold {
+  height: 1px;
+  width: 48px;
+  background: linear-gradient(to right, var(--gold), transparent);
+  margin: 24px 0;
+}
+
+.stack > * + * {
+  margin-top: 16px;
+}
+
+/* ---------- ヘッダー ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 64px;
+  padding: 8px 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.site-header__logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/*
+  ナビは条件付きの表示切り替え（JSでの出し分け）にしない。
+  静的HTMLにリンクが残らないとクローラーから辿れなくなるため、
+  狭い画面では横スクロールで見せる。
+*/
+.site-nav {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+
+.site-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.site-nav a {
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--ink-800);
+  white-space: nowrap;
+  padding: 4px 0;
+}
+
+.site-nav a:hover {
+  color: var(--gold);
+}
+
+.site-header .btn {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .site-header .btn {
+    display: inline-flex;
+  }
+}
+
+/* ---------- ボタン ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn--primary {
+  background: var(--cta);
+  color: var(--ink-950);
+}
+
+.btn--primary:hover {
+  background: var(--cta-light);
+}
+
+.btn--ghost {
+  border-color: rgba(10, 10, 10, 0.2);
+  background: transparent;
+  color: var(--ink-950);
+  font-weight: 400;
+}
+
+.btn--ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* ---------- カード・枠 ---------- */
+
+.panel {
+  background: var(--paper);
+  border: 1px solid rgba(10, 10, 10, 0.1);
+  box-shadow: 0 1px 2px rgba(10, 10, 10, 0.04);
+}
+
+.bordered {
+  border: 1px solid rgba(10, 10, 10, 0.1);
+}
+
+.quote {
+  border-left: 2px solid var(--gold);
+  padding: 4px 0 4px 24px;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---------- ヒーロー ---------- */
+
+.hero {
+  padding-top: 40px;
+}
+
+.hero__grid {
+  display: grid;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+  .hero__visual {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hero__status {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 96px;
+  }
+  .hero__copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.hero__visual {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-top: 1px solid rgba(10, 10, 10, 0.1);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  /* スマホは左右の余白を打ち消して全幅表示にする（クラファンサイトの見せ方） */
+  margin: 0 -24px;
+}
+
+@media (min-width: 768px) {
+  .hero__visual {
+    margin: 0;
+    border: 1px solid rgba(10, 10, 10, 0.1);
+  }
+}
+
+.hero__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__catch {
+  font-size: clamp(22px, 3.6vw, 30px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.hero__tagline {
+  margin-top: 16px;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.hero__status {
+  padding: 28px;
+}
+
+/* ---------- 販売メーター ---------- */
+
+.meter__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.meter__label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.meter__value {
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.meter__bar {
+  margin-top: 16px;
+  height: 12px;
+  width: 100%;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.1);
+  overflow: hidden;
+}
+
+.meter__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--gold-dark), var(--gold), var(--gold-light));
+}
+
+/* ---------- 定義リスト（価格の要約） ---------- */
+
+.spec {
+  margin: 24px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(10, 10, 10, 0.1);
+  font-size: 14px;
+}
+
+.spec__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.spec__row + .spec__row {
+  margin-top: 12px;
+}
+
+.spec dt {
+  flex-shrink: 0;
+  color: var(--ink-300);
+}
+
+.spec dd {
+  margin: 0;
+  text-align: right;
+}
+
+/* ---------- リターン ---------- */
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.plan__price {
+  font-size: 30px;
+  color: var(--gold);
+  line-height: 1.2;
+}
+
+.plan__name {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.plan__unit {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--ink-800);
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  border: 1px solid rgba(138, 109, 23, 0.4);
+  padding: 2px 8px;
+  font-size: 12px;
+  color: var(--gold);
+}
+
+.plan__spacer {
+  flex: 1;
+  min-height: 12px;
+}
+
+.plan__delivery {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(10, 10, 10, 0.1);
+  font-size: 12px;
+  color: var(--ink-300);
+}
+
+.plan .btn {
+  margin-top: 16px;
+}
+
+/* ---------- 一覧 ---------- */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  border: 1px solid rgba(138, 109, 23, 0.3);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+}
+
+.bullets {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
+  color: var(--ink-800);
+}
+
+.bullets li + li {
+  margin-top: 8px;
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+}
+
+.plain-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plain-list li + li {
+  margin-top: 8px;
+}
+
+/* ---------- 研究紹介 ---------- */
+
+.paper-card {
+  padding: 24px;
+}
+
+.paper-card__meta {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--ink-300);
+}
+
+.mineral {
+  padding: 20px;
+  text-align: center;
+}
+
+.mineral__name {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--ink-300);
+}
+
+.mineral__amount {
+  margin-top: 8px;
+  font-size: 24px;
+  color: var(--gold);
+}
+
+/* ---------- FAQ ---------- */
+
+.faq + .faq {
+  margin-top: 48px;
+}
+
+/* ---------- フッター ---------- */
+
+.site-footer {
+  background: var(--ink-950);
+  color: var(--ink-50);
+  padding: 48px 0;
+  font-size: 14px;
+}
+
+.site-footer a {
+  color: var(--gold-light);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.site-footer__logo {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.18em;
+}
+
+/* ---------- スマホ用の固定CTAバー ---------- */
+
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  border-top: 1px solid rgba(10, 10, 10, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.sticky-cta__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.sticky-cta__label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-300);
+}
+
+.sticky-cta__price {
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--gold);
+}
+
+.sticky-cta .btn {
+  flex: 1;
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding-bottom: 0;
+  }
+  .sticky-cta {
+    display: none;
+  }
+}
+
+/* ---------- 余白ユーティリティ ---------- */
+
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }
+.mt-48 { margin-top: 48px; }
