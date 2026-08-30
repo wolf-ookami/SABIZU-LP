@@ -11,9 +11,16 @@
     <meta name="robots" content="index,follow" />
 
     <!--
+      本ページは広告（Meta等）・公式LINEからの流入専用のLPとして、
+      wolf-g.jp/sabizu と同じ内容を持っている。重複コンテンツを避けるため、
+      検索の正規URLは wolf-g.jp/sabizu 側に寄せている。
+      このLP自体を検索結果に出したくなった場合は、canonical をLPの公開URLに書き換える（README参照）。
+    -->
+    <link rel="canonical" href="https://wolf-g.jp/sabizu" />
+
+    <!--
       OGP。og:image は公開ドメインが決まったら絶対URL（https://<ドメイン>/images/og-sabizu.jpg）に
       書き換えること。相対パスのままだと、SNS・LINEでの共有時に画像が出ないことがある。
-      canonical も同様に、このLPの公開URLが決まってから入れる（README参照）。
     -->
     <meta property="og:type" content="product" />
     <meta property="og:title" content="SABIZU（サビズ）キレート酵素｜フルボ酸インナーケアドリンク" />
@@ -32,6 +39,23 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
+
+    <!--
+      広告の計測タグを入れる場所。ピクセルIDが決まったら、下のコメントを外して
+      <PIXEL_ID> を実IDに差し替える。購入完了の計測は、遷移先である Stripe の
+      決済完了ページ側で行うか、Stripeボタンのクリックを InitiateCheckout として送る。
+      同意管理（Cookie同意）が必要な地域に配信する場合は、同意取得後に発火させること。
+
+      <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '<PIXEL_ID>');
+        fbq('track', 'PageView');
+      </script>
+    -->
 
     <!--
       商品としての構造化データ。クラウドファンディングの先行販売中は、定価ではなく
@@ -60,342 +84,196 @@
   </head>
 
   <body>
-    <header class="site-header">
-      <div class="site-header__inner">
-        <a class="site-header__logo" href="#top">SABIZU</a>
-        <nav class="site-nav" aria-label="ページ内メニュー">
-          <a href="#about">商品情報</a>
-          <a href="#returns">リターン</a>
-          <a href="#evidence">エビデンス</a>
-          <a href="#faq">Q&amp;A</a>
-          <a href="#contact">お問い合わせ</a>
-        </nav>
-        <a class="btn btn--primary" href="#returns">リターンを選ぶ</a>
-      </div>
-    </header>
+    <main>
+      <!-- ============ ファーストビュー ============
+        広告LPのため、グローバルナビ（ページ内メニュー）は置かない。
+        商品名 → ビジュアル → キャッチ → 価格 → 購入ボタン の順で、
+        スクロールなしで「何を・いくらで・どこから買うか」まで見せる。
+      -->
+      <section class="hero">
+        <div class="wrap hero__head">
+          <p class="brand">SABIZU</p>
+          <p class="brand__made">MADE IN JAPAN</p>
+        </div>
 
-    <main id="top">
-      <!-- ============ ヒーロー ============ -->
-      <section class="section hero">
-        <div class="container">
-          <p class="eyebrow">Product</p>
-          <h1 class="mt-16">SABIZU（サビズ）キレート酵素とは？フルボ酸のインナーケアドリンク</h1>
+        <div class="hero__visual">
+          <img
+            src="images/sabizu-banner.webp"
+            width="1200"
+            height="800"
+            fetchpriority="high"
+            alt="SABIZU（サビズ）の商品バナー。「足す」だけじゃない。毎日を、整える。フルボ酸とミネラルを、毎日の習慣に。フルボ酸・バランスよく配合したミネラル・すっきり飲みやすい味わい・毎日の習慣に続けやすい・美容と健康に内側からサポート・安心の日本製（MADE IN JAPAN）"
+          />
+        </div>
+
+        <div class="wrap hero__body">
+          <!-- キャッチコピー・タグライン（提供元支給の宣材に準拠） -->
+          <p class="hero__tagline">毎日の美容習慣にプラスする、プレミアムインナーケアドリンク</p>
+          <h1 class="mt-12">キレイな人は、“内側”のケアも忘れない。</h1>
           <div class="divider-gold"></div>
+          <p class="lead">
+            国産の海洋性腐植土から抽出したフルボ酸エキスを使用し、鉄・カルシウム・マグネシウムなどのミネラルも含有。外側からのお手入れだけではなく、内側からの美容習慣を始めたい方に。
+          </p>
+
+          <ul class="hero__points">
+            <li>フルボ酸エキス配合</li>
+            <li>4種のミネラル含有</li>
+            <li>保存料・着色料不使用</li>
+            <li>日本製</li>
+          </ul>
 
           <!--
-            クラウドファンディングのプロジェクトページ型のヒーロー。
-            並びは画面幅で変える。
-            スマホ … 商品画像 → 販売ステータス → 紹介文（数字と購入ボタンを先に見せる）
-            PC   … 左に商品画像と紹介文、右に販売ステータス（追従）
-            DOMの順番は変えず、CSS Grid の行・列指定で2つの並びを両立させている。
+            価格の要約。金額・割引率の情報源は、提供元支給の「クラファンリターン価格表」。
+            ここと #buy 以外に価格を書かないこと。
           -->
-          <div class="hero__grid mt-32">
-            <div class="hero__visual">
-              <img
-                src="images/sabizu-banner.webp"
-                width="1200"
-                height="800"
-                fetchpriority="high"
-                alt="SABIZU（サビズ）の商品バナー。「足す」だけじゃない。毎日を、整える。フルボ酸とミネラルを、毎日の習慣に。フルボ酸・バランスよく配合したミネラル・すっきり飲みやすい味わい・毎日の習慣に続けやすい・美容と健康に内側からサポート・安心の日本製（MADE IN JAPAN）"
-              />
+          <dl class="price-box">
+            <div class="price-box__row">
+              <dt>通常価格（定価）</dt>
+              <dd><span class="price-box__strike">13,000円</span></dd>
             </div>
-
-            <!-- 販売ステータス。PCではスクロールしても購入導線が見えるよう追従させる -->
-            <aside class="hero__status panel" aria-label="販売状況と価格">
-              <!--
-                販売メーターの数字は実数のみを載せること。
-                架空の販売数・支援額の表示は景品表示法（優良誤認・有利誤認）のリスクがある。
-                販売実績が動いたら「0」と達成率、注記の日付をあわせて更新する。
-              -->
-              <div class="meter__head">
-                <div>
-                  <div class="meter__label" style="color: var(--gold)">Sales</div>
-                  <div class="mt-8">
-                    <span class="stat-num meter__value">0</span>
-                    <span class="note" style="margin-left: 8px">/ 目標 100本</span>
-                  </div>
-                </div>
-                <div style="text-align: right">
-                  <div class="meter__label muted">Progress</div>
-                  <div class="stat-num mt-8" style="font-size: 26px; color: var(--gold)">0%</div>
-                </div>
-              </div>
-              <div
-                class="meter__bar"
-                role="progressbar"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="0"
-                aria-label="販売目標100本のうち0本を販売（達成率0%）"
-              >
-                <div class="meter__fill" style="width: 0%"></div>
-              </div>
-              <p class="note mt-12">
-                販売目標100本に対する現在の販売数です（2026年8月24日時点）。数字は実績にあわせて更新します。
-              </p>
-
-              <dl class="spec">
-                <div class="spec__row">
-                  <dt>通常価格（定価）</dt>
-                  <dd>13,000円</dd>
-                </div>
-                <div class="spec__row">
-                  <dt>クラファン特別価格</dt>
-                  <dd class="stat-num" style="font-size: 18px; color: var(--gold)">1本10,000円〜</dd>
-                </div>
-                <div class="spec__row">
-                  <dt>お届け予定</dt>
-                  <dd>プロジェクト終了後、10月末〜11月初旬</dd>
-                </div>
-              </dl>
-
-              <a class="btn btn--primary btn--block mt-32" href="#returns">リターンを選ぶ</a>
-              <p class="note mt-12" style="text-align: center">
-                <a href="#contact" style="color: var(--ink-800)">開始通知を受け取る（公式LINEのご案内）</a>
-              </p>
-            </aside>
-
-            <div class="hero__copy">
-              <!-- キャッチコピー・タグライン（提供元支給の宣材に準拠） -->
-              <p class="hero__catch">キレイな人は、“内側”のケアも忘れない。</p>
-              <p class="hero__tagline">毎日の美容習慣にプラスする、プレミアムインナーケアドリンク</p>
-
-              <!-- 結論ファースト：AIがそのまま引用できる一文定義を先頭に置く -->
-              <p class="mt-32" style="font-size: 18px">
-                SABIZU（サビズ）キレート酵素とは、株式会社Wolfが取り扱う、国産の海洋性腐植土から抽出したフルボ酸エキスを使用したインナーケアドリンクである。
-              </p>
-              <p class="lead mt-24">
-                国産の海洋性腐植土から抽出したフルボ酸エキスを使用し、鉄・カルシウム・マグネシウムなどのミネラルも含有。外側からのお手入れだけではなく、内側からの美容習慣を始めたい方に。いつものケアにプラスして、ワンランク上の美容習慣を。
-              </p>
+            <div class="price-box__row">
+              <dt>クラファン特別価格</dt>
+              <dd class="stat-num price-box__now">1本 10,000円〜</dd>
             </div>
-          </div>
+            <div class="price-box__row">
+              <dt>お届け予定</dt>
+              <dd>プロジェクト終了後、10月末〜11月初旬</dd>
+            </div>
+          </dl>
+
+          <a class="btn btn--primary btn--block btn--lg mt-24" href="#buy">
+            価格・セットを見る
+          </a>
+          <p class="note mt-12">
+            クラウドファンディングでの先行販売を予定しています。期間終了後は定価13,000円での販売となります。
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 共感 ============
+        食品のため、悩みの解消や効果を示す書き方はしない。
+        「どんな習慣を探している人向けの商品か」だけを書く。
+      -->
+      <section class="section section--tint">
+        <div class="wrap">
+          <h2>こんな方の、毎日の習慣に。</h2>
+          <ul class="check">
+            <li>外側のお手入れだけでなく、内側からの習慣も始めたい</li>
+            <li>忙しくても続けられるインナーケアを探している</li>
+            <li>錠剤のサプリメントが苦手で、飲みものでとりたい</li>
+            <li>毎日口にするものだから、原材料と製造国が気になる</li>
+          </ul>
+          <p class="note mt-24">
+            ※本商品は食品です。疾病の診断・治療・予防を目的としたものではなく、特定の効果・効能を保証するものではありません。
+          </p>
         </div>
       </section>
 
       <!-- ============ 商品情報 ============ -->
-      <section class="section section--tint" id="about">
-        <div class="container">
-          <h2>SABIZUの特徴</h2>
-          <div class="grid grid--2 mt-32">
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>フルボ酸エキス配合</h4>
-              <p class="mt-12" style="font-size: 14px">
-                国産の海洋性腐植土から抽出したフルボ酸エキス（海洋性腐植土抽出液）を使用しています。
-              </p>
+      <section class="section">
+        <div class="wrap">
+          <p class="label">SABIZUとは</p>
+          <!-- 結論ファースト：AIがそのまま引用できる一文定義 -->
+          <p class="mt-16" style="font-size: 18px; font-weight: 500">
+            SABIZU（サビズ）キレート酵素とは、株式会社Wolfが取り扱う、国産の海洋性腐植土から抽出したフルボ酸エキスを使用したインナーケアドリンクである。
+          </p>
+
+          <div class="mt-32">
+            <div class="feature">
+              <div class="feature__no">01</div>
+              <div class="feature__body">
+                <h3>フルボ酸エキス配合</h3>
+                <p>国産の海洋性腐植土から抽出したフルボ酸エキス（海洋性腐植土抽出液）を使用しています。</p>
+              </div>
             </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>豊富なミネラル</h4>
-              <p class="mt-12" style="font-size: 14px">
-                鉄・カルシウム・マグネシウム・亜鉛など、美容と健康を意識する方にうれしいミネラルを含有しています。
-              </p>
+            <div class="feature">
+              <div class="feature__no">02</div>
+              <div class="feature__body">
+                <h3>豊富なミネラル</h3>
+                <p>
+                  鉄・カルシウム・マグネシウム・亜鉛など、美容と健康を意識する方にうれしいミネラルを含有しています。
+                </p>
+              </div>
             </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>すっきり飲みやすい</h4>
-              <p class="mt-12" style="font-size: 14px">
-                毎日続けやすい、すっきりとした飲みやすいドリンクタイプです。
-              </p>
+            <div class="feature">
+              <div class="feature__no">03</div>
+              <div class="feature__body">
+                <h3>すっきり飲みやすい</h3>
+                <p>毎日続けやすい、すっきりとした飲みやすいドリンクタイプです。</p>
+              </div>
             </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>保存料・着色料不使用</h4>
-              <p class="mt-12" style="font-size: 14px">保存料・着色料は使用していません。</p>
+            <div class="feature">
+              <div class="feature__no">04</div>
+              <div class="feature__body">
+                <h3>保存料・着色料不使用</h3>
+                <p>保存料・着色料は使用していません。</p>
+              </div>
             </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>安心の日本製</h4>
-              <p class="mt-12" style="font-size: 14px">国内で製造しています（MADE IN JAPAN）。</p>
+            <div class="feature">
+              <div class="feature__no">05</div>
+              <div class="feature__body">
+                <h3>安心の日本製</h3>
+                <p>国内で製造しています（MADE IN JAPAN）。</p>
+              </div>
             </div>
           </div>
 
-          <h2 class="mt-48">含有ミネラル</h2>
-          <div class="grid grid--4 mt-32">
-            <div class="panel mineral">
+          <h3 class="mt-48">含有ミネラル</h3>
+          <div class="minerals mt-16">
+            <div class="mineral">
               <div class="mineral__name">鉄</div>
               <div class="stat-num mineral__amount">26.7mg</div>
             </div>
-            <div class="panel mineral">
+            <div class="mineral">
               <div class="mineral__name">カルシウム</div>
               <div class="stat-num mineral__amount">26.6mg</div>
             </div>
-            <div class="panel mineral">
+            <div class="mineral">
               <div class="mineral__name">マグネシウム</div>
               <div class="stat-num mineral__amount">7.2mg</div>
             </div>
-            <div class="panel mineral">
+            <div class="mineral">
               <div class="mineral__name">亜鉛</div>
               <div class="stat-num mineral__amount">5.75mg</div>
             </div>
           </div>
-          <p class="note mt-12" style="text-align: right">※100mlあたり</p>
+          <p class="note mt-8" style="text-align: right">※100mlあたり</p>
+        </div>
 
-          <div class="bordered mt-48" style="overflow: hidden; aspect-ratio: 3 / 2">
-            <img
-              src="images/sabizu-lifestyle-wide.webp"
-              width="1200"
-              height="800"
-              loading="lazy"
-              style="width: 100%; height: 100%; object-fit: cover"
-              alt="グラスを手にした女性とSABIZU（サビズ）のボトル。フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
-            />
-          </div>
-
-          <!-- 事業ではないという位置づけを明示する。会社の事業一覧との混同を防ぐ -->
-          <div class="quote narrow mt-48">
-            <p style="font-size: 14px">本商品は、株式会社Wolfが物販事業で取り扱っている商品です。</p>
-            <p class="note mt-12">
-              本商品を取り扱う事業は
-              <a href="https://wolf-g.jp/merchandise">物販事業ページ</a>、株式会社Wolfの事業内容については
-              <a href="https://wolf-g.jp/services">事業内容ページ</a> をご覧ください。
-            </p>
-          </div>
+        <div class="figure mt-32">
+          <img
+            src="images/sabizu-lifestyle-wide.webp"
+            width="1200"
+            height="800"
+            loading="lazy"
+            alt="グラスを手にした女性とSABIZU（サビズ）のボトル。フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
+          />
         </div>
       </section>
 
-      <!-- ============ リターン ============ -->
-      <section class="section" id="returns">
-        <div class="container">
-          <h2>リターンを選ぶ</h2>
-          <p class="lead narrow mt-24">
-            クラウドファンディングでの先行販売を予定しています。期間中は、定価13,000円よりお得な以下の特別価格でご提供します。
+      <!-- ============ CTA（1回目） ============ -->
+      <section class="cta-block">
+        <div class="wrap center">
+          <p class="hero__tagline">クラウドファンディング先行販売</p>
+          <p class="mt-8" style="font-weight: 700; font-size: 18px">
+            定価13,000円のところ、<span class="stat-num" style="color: var(--gold)">1本10,000円〜</span>
           </p>
-
-          <!--
-            リターンカード。価格・割引率・決済リンクは、提供元支給の
-            「クラファンリターン価格表」が唯一の情報源。ここ以外に価格を書かないこと。
-            決済リンク（Stripe）が外れたリターンが出たら、そのカードのボタンは
-            メール窓口（#contact）への誘導に差し替え、案内文もあわせて直すこと。
-          -->
-          <div class="grid grid--3 mt-32">
-            <div class="panel plan">
-              <div class="stat-num plan__price">10,000円</div>
-              <div class="plan__name">SABIZU（サビズ） 1本</div>
-              <p class="plan__unit">
-                1本あたり10,000円<span class="badge">定価比 約23%オフ</span>
-              </p>
-              <p class="note mt-12">クラファン特別価格・10,000円ポッキリ</p>
-              <div class="plan__spacer"></div>
-              <p class="plan__delivery">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
-              <a
-                class="btn btn--primary btn--block"
-                href="https://buy.stripe.com/dRmcN4adr82y8lKfhw9Ve01"
-                target="_blank"
-                rel="noopener noreferrer"
-                >このリターンを購入する</a
-              >
-            </div>
-
-            <div class="panel plan">
-              <div class="stat-num plan__price">19,000円</div>
-              <div class="plan__name">SABIZU（サビズ） 2本セット</div>
-              <p class="plan__unit">
-                1本あたり9,500円<span class="badge">定価比 約27%オフ</span>
-              </p>
-              <div class="plan__spacer"></div>
-              <p class="plan__delivery">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
-              <a
-                class="btn btn--primary btn--block"
-                href="https://buy.stripe.com/cNi8wO71feqW1Xm9Xc9Ve02"
-                target="_blank"
-                rel="noopener noreferrer"
-                >このリターンを購入する</a
-              >
-            </div>
-
-            <div class="panel plan">
-              <div class="stat-num plan__price">27,000円</div>
-              <div class="plan__name">SABIZU（サビズ） 3本セット</div>
-              <p class="plan__unit">
-                1本あたり9,000円<span class="badge">定価比 約31%オフ</span>
-              </p>
-              <div class="plan__spacer"></div>
-              <p class="plan__delivery">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
-              <a
-                class="btn btn--primary btn--block"
-                href="https://buy.stripe.com/4gMeVcclz82ydG47P49Ve03"
-                target="_blank"
-                rel="noopener noreferrer"
-                >このリターンを購入する</a
-              >
-            </div>
-
-            <div class="panel plan">
-              <div class="stat-num plan__price">51,000円</div>
-              <div class="plan__name">SABIZU（サビズ） 6本まとめ買い</div>
-              <p class="plan__unit">
-                1本あたり8,500円<span class="badge">定価比 約35%オフ</span>
-              </p>
-              <p class="note mt-12">約3ヶ月分</p>
-              <div class="plan__spacer"></div>
-              <p class="plan__delivery">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
-              <a
-                class="btn btn--primary btn--block"
-                href="https://buy.stripe.com/5kQ6oGadr5UqcC0d9o9Ve04"
-                target="_blank"
-                rel="noopener noreferrer"
-                >このリターンを購入する</a
-              >
-            </div>
-
-            <div class="panel plan">
-              <div class="stat-num plan__price">80,000円</div>
-              <div class="plan__name">SABIZU（サビズ） 10本まとめ買い</div>
-              <p class="plan__unit">
-                1本あたり8,000円<span class="badge">定価比 約38%オフ</span>
-              </p>
-              <div class="plan__spacer"></div>
-              <p class="plan__delivery">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
-              <a
-                class="btn btn--primary btn--block"
-                href="https://buy.stripe.com/8x2aEW5Xb4QmatS2uK9Ve05"
-                target="_blank"
-                rel="noopener noreferrer"
-                >このリターンを購入する</a
-              >
-            </div>
-
-            <div class="panel plan">
-              <div class="stat-num plan__price">750,000円</div>
-              <div class="plan__name">SABIZU（サビズ） 100本まとめ買い</div>
-              <p class="plan__unit">
-                1本あたり7,500円<span class="badge">定価比 約42%オフ</span>
-              </p>
-              <p class="note mt-12">サロン・法人・卸のお客様向け</p>
-              <div class="plan__spacer"></div>
-              <p class="plan__delivery">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
-              <a
-                class="btn btn--primary btn--block"
-                href="https://buy.stripe.com/aFa28qetH1Ea1Xm1qG9Ve07"
-                target="_blank"
-                rel="noopener noreferrer"
-                >このリターンを購入する</a
-              >
-            </div>
-          </div>
-
-          <ul class="plain-list narrow mt-32" style="font-size: 14px; color: var(--ink-800)">
-            <li>お届けは、クラウドファンディングのプロジェクト終了後、10月末〜11月初旬に順次発送予定です。</li>
-            <li>クラウドファンディング限定価格のため、期間終了後は定価13,000円での販売となります。</li>
-            <li>
-              クラウドファンディングの開始通知をご希望の方は、公式LINEにご登録いただけます。ご登録方法のご案内・ご購入のご相談は、メール（<a
-                href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
-                >info@wolf-g.jp</a
-              >）に「SABIZU購入希望」とご記載のうえご連絡ください。
-            </li>
-          </ul>
+          <a class="btn btn--primary btn--block btn--lg" href="#buy">価格・セットを見る</a>
         </div>
       </section>
 
-      <!-- ============ エビデンス ============ -->
-      <!--
+      <!-- ============ エビデンス ============
         主成分「フルボ酸」の研究紹介。成分一般の研究報告の紹介であり、
         本商品の効果・効能の標榜ではない。
-        冒頭の注意書きと末尾の disclaimer は必ず表示すること（外すと効能標榜になる）。
-        出典は「論文名（発表年）」と「掲載誌・巻号ページ・著者」まで必ず書く。
+        冒頭の注意書きと末尾の disclaimer は必ず「畳まずに」表示すること（外すと効能標榜になる）。
+        個別の論文はアコーディオンに畳んでよいが、出典（論文名・掲載誌・巻号ページ・著者）は必ずセットで残す。
       -->
-      <section class="section section--tint" id="evidence">
-        <div class="container">
-          <p class="eyebrow">Evidence</p>
+      <section class="section section--tint">
+        <div class="wrap">
+          <p class="label">Evidence</p>
           <h2 class="mt-16">主成分「フルボ酸」の研究紹介</h2>
 
-          <div class="medium stack mt-24">
+          <div class="stack mt-24">
             <p class="lead">
               SABIZUの主成分であるフルボ酸（Fulvic
               Acid）は、ミネラルと結びついて運ぶキレート作用や抗酸化作用を持つことから、近年、美容や皮膚科学の分野で世界的に研究が進められている成分です。
@@ -416,371 +294,518 @@
             <span class="tag">腸内細菌叢の活性</span>
             <span class="tag">ミトコンドリア呼吸・ATP産生</span>
           </div>
-          <p class="note medium mt-12">
+          <p class="note mt-12">
             ※いずれも成分「フルボ酸」について論文等で報告のある作用の名称であり、本商品の効果を示すものではありません。
           </p>
 
-          <div class="quote medium mt-24">
+          <div class="quote mt-24">
             <p style="font-size: 14px">
               以下は成分「フルボ酸」に関する研究報告のご紹介であり、本商品（食品）の効果・効能を示すものではありません。
             </p>
           </div>
 
           <!-- 肌への働き（外用） -->
-          <h3 class="mt-48">肌への働き（外用）に関する研究報告</h3>
-          <div class="stack mt-24">
-            <div class="panel paper-card">
-              <h4>湿疹への外用に関する臨床試験（ヒト・二重盲検）</h4>
-              <p class="paper-card__meta">
-                論文：Randomized, parallel-group, double-blind, controlled study to evaluate the
-                efficacy and safety of carbohydrate-derived fulvic acid in topical treatment of
-                eczema（2011）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：Clinical, Cosmetic and Investigational Dermatology
-                4巻145-148ページ（Gandy JJ, Snyman JR, van Rensburg CE）
-              </p>
-              <ul class="bullets">
-                <li>
-                  南アフリカの研究チーム（Gandy
-                  et al.）による、湿疹のある36名を対象とした無作為化・二重盲検・プラセボ対照の試験です。フルボ酸を人に使った数少ない比較試験のひとつとして、この分野でよく引用されています。
-                </li>
-                <li>
-                  炭水化物由来フルボ酸（CHD-FA）配合の外用剤を1日2回・4週間使用したところ、医師による全般改善度の評価で、プラセボ（偽薬）群と比較して有意な改善が報告されました。
-                </li>
-                <li>
-                  安全性の検査値はいずれも基準範囲内で、塗布時の一過性のヒリつきを除き、プラセボ群との差は報告されていません。
-                </li>
-              </ul>
-            </div>
+          <h3 class="mt-32">肌への働き（外用）に関する研究報告</h3>
+          <div class="mt-16">
+            <details class="acc">
+              <summary>湿疹への外用に関する臨床試験（ヒト・二重盲検）</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Randomized, parallel-group, double-blind, controlled study to evaluate the
+                  efficacy and safety of carbohydrate-derived fulvic acid in topical treatment of
+                  eczema（2011）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：Clinical, Cosmetic and Investigational Dermatology
+                  4巻145-148ページ（Gandy JJ, Snyman JR, van Rensburg CE）
+                </p>
+                <ul class="bullets">
+                  <li>
+                    南アフリカの研究チーム（Gandy
+                    et al.）による、湿疹のある36名を対象とした無作為化・二重盲検・プラセボ対照の試験です。フルボ酸を人に使った数少ない比較試験のひとつとして、この分野でよく引用されています。
+                  </li>
+                  <li>
+                    炭水化物由来フルボ酸（CHD-FA）配合の外用剤を1日2回・4週間使用したところ、医師による全般改善度の評価で、プラセボ（偽薬）群と比較して有意な改善が報告されました。
+                  </li>
+                  <li>
+                    安全性の検査値はいずれも基準範囲内で、塗布時の一過性のヒリつきを除き、プラセボ群との差は報告されていません。
+                  </li>
+                </ul>
+              </div>
+            </details>
 
-            <div class="panel paper-card">
-              <h4>抗炎症・創傷治癒（傷の回復）に関する動物試験</h4>
-              <p class="paper-card__meta">
-                論文：Carbohydrate-derived fulvic acid (CHD-FA) inhibits carrageenan-induced
-                inflammation and enhances wound healing: efficacy and toxicity study in rats（2012）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：Drug Development Research 73巻1号18-23ページ（Sabi R, Vrey P, van Rensburg CE）
-              </p>
-              <ul class="bullets">
-                <li>ラットを用いた試験で、カラギーナンによって起こした炎症（腫れ）が抑えられたことが報告されています。</li>
-                <li>あわせて、皮膚の傷の治癒が促進されたことが報告されています。</li>
-                <li>動物を対象とした試験であり、ヒトでの効果を示すものではありません。</li>
-              </ul>
-            </div>
+            <details class="acc">
+              <summary>抗炎症・創傷治癒（傷の回復）に関する動物試験</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Carbohydrate-derived fulvic acid (CHD-FA) inhibits carrageenan-induced
+                  inflammation and enhances wound healing: efficacy and toxicity study in rats（2012）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：Drug Development Research 73巻1号18-23ページ（Sabi R, Vrey P, van Rensburg CE）
+                </p>
+                <ul class="bullets">
+                  <li>ラットを用いた試験で、カラギーナンによって起こした炎症（腫れ）が抑えられたことが報告されています。</li>
+                  <li>あわせて、皮膚の傷の治癒が促進されたことが報告されています。</li>
+                  <li>動物を対象とした試験であり、ヒトでの効果を示すものではありません。</li>
+                </ul>
+              </div>
+            </details>
 
-            <div class="panel paper-card">
-              <h4>抗菌・抗真菌作用に関する試験管内（in vitro）研究</h4>
-              <p class="paper-card__meta">
-                論文：Carbohydrate derived fulvic acid: an in vitro investigation of a novel membrane
-                active antiseptic agent against Candida albicans biofilms（2012）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：Frontiers in Microbiology 3巻116（Sherry L ほか／英国・グラスゴーの研究チーム）
-              </p>
-              <ul class="bullets">
-                <li>
-                  カンジダ菌（Candida
-                  albicans）に対して、浮遊状態でもバイオフィルム状態でも殺菌的に働き、その仕組みとして細胞膜への作用が示されました。
-                </li>
-                <li>
-                  別の研究では、メチシリン耐性黄色ブドウ球菌（MRSA）や緑膿菌など薬剤耐性菌に対する抗菌活性も報告されています（Journal
-                  of Trauma and Acute Care Surgery 2015年 79巻 S121-S129ページ）。
-                </li>
-                <li>いずれも試験管内および動物を対象とした研究です。</li>
-              </ul>
-            </div>
+            <details class="acc">
+              <summary>抗菌・抗真菌作用に関する試験管内（in vitro）研究</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Carbohydrate derived fulvic acid: an in vitro investigation of a novel
+                  membrane active antiseptic agent against Candida albicans biofilms（2012）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：Frontiers in Microbiology 3巻116（Sherry L ほか／英国・グラスゴーの研究チーム）
+                </p>
+                <ul class="bullets">
+                  <li>
+                    カンジダ菌（Candida
+                    albicans）に対して、浮遊状態でもバイオフィルム状態でも殺菌的に働き、その仕組みとして細胞膜への作用が示されました。
+                  </li>
+                  <li>
+                    別の研究では、メチシリン耐性黄色ブドウ球菌（MRSA）や緑膿菌など薬剤耐性菌に対する抗菌活性も報告されています（Journal
+                    of Trauma and Acute Care Surgery 2015年 79巻 S121-S129ページ）。
+                  </li>
+                  <li>いずれも試験管内および動物を対象とした研究です。</li>
+                </ul>
+              </div>
+            </details>
 
-            <div class="panel paper-card">
-              <h4>アトピー性皮膚炎の分子メカニズム解析（培養細胞・マウス）</h4>
-              <p class="paper-card__meta">
-                論文：Fulvic Acid Attenuates Atopic Dermatitis by Downregulating CCL17/22（2023）
-              </p>
-              <p class="paper-card__meta">掲載誌：Molecules 28巻8号3507（Wu C, Lyu A, Shan S）</p>
-              <ul class="bullets">
-                <li>
-                  比較的新しい研究で、ヒト表皮細胞（HaCaT）において、かゆみ・炎症に関わる物質（CCL17／CCL22）の産生が抑えられることが報告されました。
-                </li>
-                <li>その仕組みとして、炎症を伝えるシグナル経路（p38 MAPK・JNK）の活性化を抑えることが示されています。</li>
-                <li>
-                  アトピー性皮膚炎モデルのマウスにフルボ酸を塗布した試験でも、症状と血中のCCL17／CCL22が低下したと報告されています。
-                </li>
-              </ul>
-            </div>
+            <details class="acc">
+              <summary>アトピー性皮膚炎の分子メカニズム解析（培養細胞・マウス）</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Fulvic Acid Attenuates Atopic Dermatitis by Downregulating CCL17/22（2023）
+                </p>
+                <p class="acc__meta">掲載誌：Molecules 28巻8号3507（Wu C, Lyu A, Shan S）</p>
+                <ul class="bullets">
+                  <li>
+                    比較的新しい研究で、ヒト表皮細胞（HaCaT）において、かゆみ・炎症に関わる物質（CCL17／CCL22）の産生が抑えられることが報告されました。
+                  </li>
+                  <li>その仕組みとして、炎症を伝えるシグナル経路（p38 MAPK・JNK）の活性化を抑えることが示されています。</li>
+                  <li>
+                    アトピー性皮膚炎モデルのマウスにフルボ酸を塗布した試験でも、症状と血中のCCL17／CCL22が低下したと報告されています。
+                  </li>
+                </ul>
+              </div>
+            </details>
           </div>
 
           <!-- エイジングケア・飲むこと -->
-          <h3 class="mt-48">エイジングケア・「飲むこと」に関する研究報告</h3>
-          <div class="stack" style="margin-top: 24px">
-            <div class="panel paper-card">
-              <h4>シワ・たるみ予防（コラーゲン分解の抑制）に関する研究</h4>
-              <p class="paper-card__meta">
-                論文：Effect of fulvic acid on ultraviolet induced skin aging: The effect of fulvic
-                acid on fibroblasts and matrix metalloproteinase（2012）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：西日本皮膚科 74巻4号427-431ページ（Kinoshita H ほか／慶應義塾大学の研究者による報告）
-              </p>
-              <ul class="bullets">
-                <li>
-                  紫外線（UV）を浴びると皮膚の中で増える酵素「MMP（マトリックスメタロプロテアーゼ）」は、コラーゲンを分解してシワやたるみの原因になるとされています。
-                </li>
-                <li>
-                  培養した線維芽細胞を用いた試験で、フルボ酸がこのコラーゲン分解酵素（MMP）の働きを抑えることが報告されました。
-                </li>
-                <li>あわせて、コラーゲンを生み出す線維芽細胞の生存率を高めたことも報告されています。</li>
-              </ul>
-            </div>
+          <h3 class="mt-32">エイジングケア・「飲むこと」に関する研究報告</h3>
+          <div class="mt-16">
+            <details class="acc">
+              <summary>シワ・たるみ予防（コラーゲン分解の抑制）に関する研究</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Effect of fulvic acid on ultraviolet induced skin aging: The effect of fulvic
+                  acid on fibroblasts and matrix metalloproteinase（2012）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：西日本皮膚科 74巻4号427-431ページ（Kinoshita H ほか／慶應義塾大学の研究者による報告）
+                </p>
+                <ul class="bullets">
+                  <li>
+                    紫外線（UV）を浴びると皮膚の中で増える酵素「MMP（マトリックスメタロプロテアーゼ）」は、コラーゲンを分解してシワやたるみの原因になるとされています。
+                  </li>
+                  <li>
+                    培養した線維芽細胞を用いた試験で、フルボ酸がこのコラーゲン分解酵素（MMP）の働きを抑えることが報告されました。
+                  </li>
+                  <li>あわせて、コラーゲンを生み出す線維芽細胞の生存率を高めたことも報告されています。</li>
+                </ul>
+              </div>
+            </details>
 
-            <div class="panel paper-card">
-              <h4>経口摂取（飲用）の安全性を調べた第1相試験（ヒト）</h4>
-              <p class="paper-card__meta">
-                論文：Phase 1 clinical study of the acute and subacute safety and proof-of-concept
-                efficacy of carbohydrate-derived fulvic acid（2012）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：Clinical Pharmacology: Advances and Applications 4巻7-11ページ（Gandy JJ,
-                Meeding JP, Snyman JR, van Rensburg CE）
-              </p>
-              <ul class="bullets">
-                <li>
-                  アトピー素因のある男性30名に、炭水化物由来フルボ酸（CHD-FA）を段階的に増量しながら飲用してもらい、急性・亜急性の安全性を確認した試験です。
-                </li>
-                <li>重篤な有害事象は報告されず、飲用時の忍容性が確認されたとされています。</li>
-                <li>試験用のCHD-FA溶液を用いた研究であり、本商品を用いた試験ではありません。</li>
-              </ul>
-            </div>
+            <details class="acc">
+              <summary>経口摂取（飲用）の安全性を調べた第1相試験（ヒト）</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Phase 1 clinical study of the acute and subacute safety and proof-of-concept
+                  efficacy of carbohydrate-derived fulvic acid（2012）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：Clinical Pharmacology: Advances and Applications 4巻7-11ページ（Gandy JJ,
+                  Meeding JP, Snyman JR, van Rensburg CE）
+                </p>
+                <ul class="bullets">
+                  <li>
+                    アトピー素因のある男性30名に、炭水化物由来フルボ酸（CHD-FA）を段階的に増量しながら飲用してもらい、急性・亜急性の安全性を確認した試験です。
+                  </li>
+                  <li>重篤な有害事象は報告されず、飲用時の忍容性が確認されたとされています。</li>
+                  <li>試験用のCHD-FA溶液を用いた研究であり、本商品を用いた試験ではありません。</li>
+                </ul>
+              </div>
+            </details>
 
-            <div class="panel paper-card">
-              <h4>「飲むこと」と酸化ストレス・腸内環境に関する総説</h4>
-              <p class="paper-card__meta">
-                論文：Therapeutic Potential of Fulvic Acid in Chronic Inflammatory Diseases and
-                Diabetes（2018）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：Journal of Diabetes Research 2018年 論文番号5391014（総説論文／Winkler J, Ghosh S）
-              </p>
-              <ul class="bullets">
-                <li>
-                  フルボ酸の免疫調節・酸化ストレス・腸内環境（マイクロバイオーム）への働きについて、それまでの研究を整理した総説です。
-                </li>
-                <li>
-                  酸化ストレス（活性酸素種＝ROSと抗酸化のバランスの乱れ）が慢性の炎症と関わることを整理したうえで、フルボ酸の抗酸化作用や、腸内細菌叢・栄養吸収への影響に関する報告を紹介しています。
-                </li>
-                <li>
-                  著者ら自身が「これまでの研究は限られており、さらなる検証が必要」と述べている総説であり、その位置づけのままご紹介しています。
-                </li>
-              </ul>
-            </div>
+            <details class="acc">
+              <summary>「飲むこと」と酸化ストレス・腸内環境に関する総説</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Therapeutic Potential of Fulvic Acid in Chronic Inflammatory Diseases and
+                  Diabetes（2018）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：Journal of Diabetes Research 2018年 論文番号5391014（総説論文／Winkler J, Ghosh S）
+                </p>
+                <ul class="bullets">
+                  <li>
+                    フルボ酸の免疫調節・酸化ストレス・腸内環境（マイクロバイオーム）への働きについて、それまでの研究を整理した総説です。
+                  </li>
+                  <li>
+                    酸化ストレス（活性酸素種＝ROSと抗酸化のバランスの乱れ）が慢性の炎症と関わることを整理したうえで、フルボ酸の抗酸化作用や、腸内細菌叢・栄養吸収への影響に関する報告を紹介しています。
+                  </li>
+                  <li>
+                    著者ら自身が「これまでの研究は限られており、さらなる検証が必要」と述べている総説であり、その位置づけのままご紹介しています。
+                  </li>
+                </ul>
+              </div>
+            </details>
 
-            <div class="panel paper-card">
-              <h4>成分を運ぶ「キャリア」機能・製剤への応用研究</h4>
-              <p class="paper-card__meta">
-                論文：Exploration of fulvic acid as a functional excipient in line with the
-                regulatory requirement（2020）
-              </p>
-              <p class="paper-card__meta">
-                掲載誌：Environmental Research 187巻 論文番号109642（Gnananath K ほか）
-              </p>
-              <ul class="bullets">
-                <li>医薬品の添加剤（賦形剤）としてフルボ酸を使えるかどうかを、規制要件に沿って検討した研究です。</li>
-                <li>
-                  水に溶けにくい成分の溶解性・吸収性を高める働きや、ほかの成分と結晶を作る性質が報告されており、成分を掴んで運ぶ「運び屋（キャリア）」としての機能が注目されています。
-                </li>
-                <li>
-                  このほか、フルボ酸そのものを有効成分とする経皮吸収パッチの研究も報告されています（Journal of Drug
-                  Delivery and Therapeutics 2024年ほか）。
-                </li>
-              </ul>
-            </div>
+            <details class="acc">
+              <summary>成分を運ぶ「キャリア」機能・製剤への応用研究</summary>
+              <div class="acc__body">
+                <p class="acc__meta">
+                  論文：Exploration of fulvic acid as a functional excipient in line with the
+                  regulatory requirement（2020）
+                </p>
+                <p class="acc__meta">
+                  掲載誌：Environmental Research 187巻 論文番号109642（Gnananath K ほか）
+                </p>
+                <ul class="bullets">
+                  <li>医薬品の添加剤（賦形剤）としてフルボ酸を使えるかどうかを、規制要件に沿って検討した研究です。</li>
+                  <li>
+                    水に溶けにくい成分の溶解性・吸収性を高める働きや、ほかの成分と結晶を作る性質が報告されており、成分を掴んで運ぶ「運び屋（キャリア）」としての機能が注目されています。
+                  </li>
+                  <li>
+                    このほか、フルボ酸そのものを有効成分とする経皮吸収パッチの研究も報告されています（Journal of Drug
+                    Delivery and Therapeutics 2024年ほか）。
+                  </li>
+                </ul>
+              </div>
+            </details>
           </div>
 
-          <!-- 総括 -->
-          <h3 class="mt-48">研究報告から見えてくる、フルボ酸の4つの側面</h3>
-          <div class="grid grid--2 mt-24">
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>守る</h4>
-              <p class="mt-12" style="font-size: 14px">
-                慶應義塾大学などの研究では、紫外線によるコラーゲン分解酵素（MMP）の働きを阻害することが報告されています。
-              </p>
-            </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>育てる</h4>
-              <p class="mt-12" style="font-size: 14px">
-                経口摂取と体内の酸化ストレス・腸内環境の関わりが研究されており（Journal of Diabetes Research
-                2018の総説ほか）、内側からのケアという考え方の背景として注目されています。ヒトを対象とした検証はまだ限られています。
-              </p>
-            </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>届ける</h4>
-              <p class="mt-12" style="font-size: 14px">
-                分子量が小さく、ミネラルなどの成分と結びついて運ぶキレート作用により、成分の「運び屋（キャリア）」としての機能が研究されています。
-              </p>
-            </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>整える</h4>
-              <p class="mt-12" style="font-size: 14px">
-                フルボ酸は弱酸性の性質を持ち、肌のpHバランス（酸性マントル）やバリア機能との関わりが研究されています。
-              </p>
-            </div>
+          <!-- 総括・背景。本文が長くなりすぎないよう畳んでおく -->
+          <h3 class="mt-32">研究報告から見えてくること</h3>
+          <div class="mt-16">
+            <details class="acc">
+              <summary>フルボ酸の4つの側面（守る・育てる・届ける・整える）</summary>
+              <div class="acc__body">
+                <div class="stack">
+                  <div>
+                    <h4>守る</h4>
+                    <p style="font-size: 14px">
+                      慶應義塾大学などの研究では、紫外線によるコラーゲン分解酵素（MMP）の働きを阻害することが報告されています。
+                    </p>
+                  </div>
+                  <div>
+                    <h4>育てる</h4>
+                    <p style="font-size: 14px">
+                      経口摂取と体内の酸化ストレス・腸内環境の関わりが研究されており（Journal of Diabetes Research
+                      2018の総説ほか）、内側からのケアという考え方の背景として注目されています。ヒトを対象とした検証はまだ限られています。
+                    </p>
+                  </div>
+                  <div>
+                    <h4>届ける</h4>
+                    <p style="font-size: 14px">
+                      分子量が小さく、ミネラルなどの成分と結びついて運ぶキレート作用により、成分の「運び屋（キャリア）」としての機能が研究されています。
+                    </p>
+                  </div>
+                  <div>
+                    <h4>整える</h4>
+                    <p style="font-size: 14px">
+                      フルボ酸は弱酸性の性質を持ち、肌のpHバランス（酸性マントル）やバリア機能との関わりが研究されています。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>「飲む」と「塗る」、2つの経路で進む研究</summary>
+              <div class="acc__body">
+                <div class="stack">
+                  <p style="font-size: 14px">
+                    フルボ酸の研究は、経口摂取（飲む）と外用（塗る）の両面から進められています。
+                  </p>
+                  <div>
+                    <h4>Inward — 飲む（経口摂取）の研究</h4>
+                    <p style="font-size: 14px">
+                      経口摂取の研究では、腸内環境（マイクロバイオーム）や栄養吸収への影響、酸化ストレスとの関わりが報告されています（Journal
+                      of Diabetes
+                      Research 2018の総説）。ヒトを対象とした研究は、飲用の安全性を確認した第1相試験（Clinical
+                      Pharmacology: Advances and
+                      Applications 2012）などに限られ、検証はこれからの分野です。SABIZUは、この「飲む」タイプのインナーケアドリンクです。
+                    </p>
+                  </div>
+                  <div>
+                    <h4>Outward — 塗る（外用）の研究</h4>
+                    <p style="font-size: 14px">
+                      外用の研究では、湿疹のある方を対象とした二重盲検試験での改善（Clinical, Cosmetic and
+                      Investigational
+                      Dermatology 2011）、かゆみ・炎症の原因物質（CCL17／CCL22）の産生抑制（Molecules
+                      2023）、紫外線によるコラーゲン分解酵素（MMP）の阻害（西日本皮膚科 2012）が報告されています。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- 品質に関する注意（研究紹介とセットで必ず出す） -->
+            <details class="acc">
+              <summary>フルボ酸の品質について</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  フルボ酸は、採取源（土壌抽出か、植物発酵かなど）や抽出方法によって品質・純度が大きく異なることが知られています。論文では純度の高い医療グレードや特定の炭水化物由来フルボ酸（CHD-FA）が使われることが多く、製品を選ぶ際は抽出方法や純度の確認が重要とされています。SABIZUは、国産の海洋性腐植土から抽出したフルボ酸エキスを使用しています。
+                </p>
+              </div>
+            </details>
+
+            <!-- ONE HEALTHコンセプト（成分の背景にある自然循環の話。効果効能の標榜ではない） -->
+            <details class="acc">
+              <summary>フルボ酸と「ONE HEALTH」</summary>
+              <div class="acc__body">
+                <p class="acc__meta" style="color: var(--gold)">
+                  Fulvic Acid as a Versatile Intermediary — One Health Concept
+                </p>
+                <div class="stack mt-16">
+                  <p style="font-size: 14px">
+                    フルボ酸は、工場で作られる化学物質ではありません。命を全うした動植物や魚介類・海藻が腐葉土から腐植土へと変わる過程で、数千万年から1億年ともいわれる途方もない時間をかけて分解・発酵を繰り返して生まれた、「生命の循環の最終形態」とも呼ばれる天然由来の物質です。「豊かな海の背景には豊かな森が存在する」と言われるように、森から川、そして海へと流れ出て生態系をつなぐ、自然の仲介者の役割を担っています。
+                  </p>
+                  <p style="font-size: 14px">
+                    その働きが注目されているのは、ヒトの分野だけではありません。環境分野では水質浄化・土壌改良・重金属の吸着といった浄化剤としての利用が、畜産分野では家畜の栄養吸収サポートなどへの活用が研究されています。自然界では常に「不要なものを排出し、必要なものを届ける」仲介者として働いており、環境・動物・ヒトの健康をひとつながりのものとして捉える「ONE
+                    HEALTH（ワンヘルス）」の考え方を体現する物質として紹介されています。
+                  </p>
+                  <p style="font-size: 14px; font-weight: 500">
+                    真の美しさは、大自然との調和の中に。— Fulvic Acid, The Ultimate Cycle of Vitality.
+                  </p>
+                </div>
+              </div>
+            </details>
           </div>
 
-          <!-- 「飲む」と「塗る」の2経路 -->
-          <h3 class="mt-48">「飲む」と「塗る」、2つの経路で進む研究</h3>
-          <p class="lead medium mt-16">
-            フルボ酸の研究は、経口摂取（飲む）と外用（塗る）の両面から進められています。
-          </p>
-          <div class="grid grid--2 mt-24">
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>Inward — 飲む（経口摂取）の研究</h4>
-              <p class="mt-12" style="font-size: 14px">
-                経口摂取の研究では、腸内環境（マイクロバイオーム）や栄養吸収への影響、酸化ストレスとの関わりが報告されています（Journal
-                of Diabetes
-                Research 2018の総説）。ヒトを対象とした研究は、飲用の安全性を確認した第1相試験（Clinical
-                Pharmacology: Advances and
-                Applications 2012）などに限られ、検証はこれからの分野です。SABIZUは、この「飲む」タイプのインナーケアドリンクです。
-              </p>
-            </div>
-            <div class="bordered" style="padding: 24px; background: var(--paper)">
-              <h4>Outward — 塗る（外用）の研究</h4>
-              <p class="mt-12" style="font-size: 14px">
-                外用の研究では、湿疹のある方を対象とした二重盲検試験での改善（Clinical, Cosmetic and
-                Investigational
-                Dermatology 2011）、かゆみ・炎症の原因物質（CCL17／CCL22）の産生抑制（Molecules
-                2023）、紫外線によるコラーゲン分解酵素（MMP）の阻害（西日本皮膚科 2012）が報告されています。
-              </p>
-            </div>
-          </div>
-
-          <!-- 品質に関する注意（研究紹介とセットで必ず出す） -->
-          <div class="quote medium mt-48">
-            <h3 style="font-size: 18px; font-weight: 600">フルボ酸の品質について</h3>
-            <p class="mt-12" style="font-size: 14px">
-              フルボ酸は、採取源（土壌抽出か、植物発酵かなど）や抽出方法によって品質・純度が大きく異なることが知られています。論文では純度の高い医療グレードや特定の炭水化物由来フルボ酸（CHD-FA）が使われることが多く、製品を選ぶ際は抽出方法や純度の確認が重要とされています。SABIZUは、国産の海洋性腐植土から抽出したフルボ酸エキスを使用しています。
-            </p>
-          </div>
-
-          <!-- ONE HEALTHコンセプト（成分の背景にある自然循環の話。効果効能の標榜ではない） -->
-          <div class="panel mt-48" style="padding: 32px">
-            <h3>フルボ酸と「ONE HEALTH」</h3>
-            <p class="mt-8" style="font-size: 12px; letter-spacing: 0.18em; color: var(--gold)">
-              Fulvic Acid as a Versatile Intermediary — One Health Concept
-            </p>
-            <div class="stack mt-24">
-              <p>
-                フルボ酸は、工場で作られる化学物質ではありません。命を全うした動植物や魚介類・海藻が腐葉土から腐植土へと変わる過程で、数千万年から1億年ともいわれる途方もない時間をかけて分解・発酵を繰り返して生まれた、「生命の循環の最終形態」とも呼ばれる天然由来の物質です。「豊かな海の背景には豊かな森が存在する」と言われるように、森から川、そして海へと流れ出て生態系をつなぐ、自然の仲介者の役割を担っています。
-              </p>
-              <p>
-                その働きが注目されているのは、ヒトの分野だけではありません。環境分野では水質浄化・土壌改良・重金属の吸着といった浄化剤としての利用が、畜産分野では家畜の栄養吸収サポートなどへの活用が研究されています。自然界では常に「不要なものを排出し、必要なものを届ける」仲介者として働いており、環境・動物・ヒトの健康をひとつながりのものとして捉える「ONE
-                HEALTH（ワンヘルス）」の考え方を体現する物質として紹介されています。
-              </p>
-            </div>
-            <p
-              class="mt-24"
-              style="border-top: 1px solid rgba(10, 10, 10, 0.1); padding-top: 20px; font-weight: 500"
-            >
-              真の美しさは、大自然との調和の中に。— Fulvic Acid, The Ultimate Cycle of Vitality.
-            </p>
-          </div>
-
-          <p class="note medium mt-32">
+          <p class="note mt-24">
             ※本セクションで紹介した研究は、成分「フルボ酸」一般に関するものであり、本商品を用いた試験結果ではありません。研究で使用されたフルボ酸の由来・純度・濃度・使用方法は本商品と異なる場合があります。本商品は食品であり、疾病の診断・治療・予防を目的としたものではありません。
           </p>
         </div>
       </section>
 
-      <!-- ============ Q&A ============ -->
-      <section class="section" id="faq">
-        <div class="container narrow">
-          <div class="faq">
-            <h2>フルボ酸とは？</h2>
-            <div class="stack mt-24">
-              <p class="lead">
-                太古の海洋植物やミネラルが長い年月をかけて自然発酵・分解された、天然由来の有機物質です。
-              </p>
-              <p class="lead">
-                ミネラルと結びつきやすい性質（キレート）があることで知られ、美容や健康を意識する方から注目されています。
-              </p>
+      <!-- ============ 価格・購入 ============
+        価格・割引率・決済リンクは、提供元支給の「クラファンリターン価格表」が唯一の情報源。
+        決済リンク（Stripe）が外れたリターンが出たら、そのボタンはメール窓口への誘導に
+        差し替え、案内文もあわせて直すこと。
+        リンクは target="_blank" にしない。広告のアプリ内ブラウザでは新規タブが開かず、
+        決済に進めないことがあるため、同一タブで Stripe に遷移させる。
+      -->
+      <section class="section" id="buy">
+        <div class="wrap">
+          <p class="label">先行販売価格</p>
+          <h2 class="mt-16">セットを選ぶ</h2>
+          <p class="lead mt-16">
+            クラウドファンディングでの先行販売を予定しています。期間中は、定価13,000円よりお得な以下の特別価格でご提供します。
+          </p>
+
+          <div class="mt-24">
+            <div class="plan">
+              <div class="plan__main">
+                <div class="plan__name">SABIZU 1本</div>
+                <div class="stat-num plan__price">10,000円</div>
+                <div class="plan__unit">
+                  1本あたり10,000円<span class="badge">定価比 約23%オフ</span><br />クラファン特別価格・10,000円ポッキリ
+                </div>
+              </div>
+              <a class="btn btn--primary" href="https://buy.stripe.com/dRmcN4adr82y8lKfhw9Ve01"
+                >購入する</a
+              >
+            </div>
+
+            <div class="plan">
+              <div class="plan__main">
+                <div class="plan__name">SABIZU 2本セット</div>
+                <div class="stat-num plan__price">19,000円</div>
+                <div class="plan__unit">
+                  1本あたり9,500円<span class="badge">定価比 約27%オフ</span>
+                </div>
+              </div>
+              <a class="btn btn--primary" href="https://buy.stripe.com/cNi8wO71feqW1Xm9Xc9Ve02"
+                >購入する</a
+              >
+            </div>
+
+            <div class="plan">
+              <div class="plan__main">
+                <div class="plan__name">SABIZU 3本セット</div>
+                <div class="stat-num plan__price">27,000円</div>
+                <div class="plan__unit">
+                  1本あたり9,000円<span class="badge">定価比 約31%オフ</span>
+                </div>
+              </div>
+              <a class="btn btn--primary" href="https://buy.stripe.com/4gMeVcclz82ydG47P49Ve03"
+                >購入する</a
+              >
+            </div>
+
+            <div class="plan">
+              <div class="plan__main">
+                <div class="plan__name">SABIZU 6本まとめ買い（約3ヶ月分）</div>
+                <div class="stat-num plan__price">51,000円</div>
+                <div class="plan__unit">
+                  1本あたり8,500円<span class="badge">定価比 約35%オフ</span>
+                </div>
+              </div>
+              <a class="btn btn--primary" href="https://buy.stripe.com/5kQ6oGadr5UqcC0d9o9Ve04"
+                >購入する</a
+              >
+            </div>
+
+            <div class="plan">
+              <div class="plan__main">
+                <div class="plan__name">SABIZU 10本まとめ買い</div>
+                <div class="stat-num plan__price">80,000円</div>
+                <div class="plan__unit">
+                  1本あたり8,000円<span class="badge">定価比 約38%オフ</span>
+                </div>
+              </div>
+              <a class="btn btn--primary" href="https://buy.stripe.com/8x2aEW5Xb4QmatS2uK9Ve05"
+                >購入する</a
+              >
+            </div>
+
+            <div class="plan">
+              <div class="plan__main">
+                <div class="plan__name">SABIZU 100本まとめ買い（サロン・法人・卸のお客様向け）</div>
+                <div class="stat-num plan__price">750,000円</div>
+                <div class="plan__unit">
+                  1本あたり7,500円<span class="badge">定価比 約42%オフ</span>
+                </div>
+              </div>
+              <a class="btn btn--primary" href="https://buy.stripe.com/aFa28qetH1Ea1Xm1qG9Ve07"
+                >購入する</a
+              >
             </div>
           </div>
 
-          <div class="faq">
-            <h2>価格はいくら？</h2>
-            <p class="lead mt-24">
-              定価は13,000円です。クラウドファンディング期間中は、1本10,000円（約23%オフ）から、まとめ買いで最大約42%オフになる特別価格を予定しています。詳しくは当ページの「<a
-                href="#returns"
-                >リターンを選ぶ</a
-              >」をご覧ください。
-            </p>
-          </div>
-
-          <div class="faq">
-            <h2>どこで購入できる？</h2>
-            <p class="lead mt-24">
-              すべてのリターンを、当ページの「<a href="#returns">リターンを選ぶ</a>」から、クレジットカード（Stripeの決済ページ）で直接ご購入いただけます。お見積もり・卸のご相談は、メール（<a
+          <ul class="plain-list mt-24">
+            <li>お支払いは、クレジットカード（Stripeの決済ページ）でお手続きいただけます。</li>
+            <li>お届けは、クラウドファンディングのプロジェクト終了後、10月末〜11月初旬に順次発送予定です。</li>
+            <li>クラウドファンディング限定価格のため、期間終了後は定価13,000円での販売となります。</li>
+            <li>
+              開始通知のご希望、お見積もり・卸のご相談は、メール（<a
                 href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
                 >info@wolf-g.jp</a
               >）に「SABIZU購入希望」とご記載のうえご連絡ください。
-            </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ Q&A ============ -->
+      <section class="section section--tint">
+        <div class="wrap">
+          <h2>よくあるご質問</h2>
+          <div class="mt-24">
+            <details class="acc">
+              <summary>フルボ酸とは？</summary>
+              <div class="acc__body">
+                <div class="stack">
+                  <p style="font-size: 14px">
+                    太古の海洋植物やミネラルが長い年月をかけて自然発酵・分解された、天然由来の有機物質です。
+                  </p>
+                  <p style="font-size: 14px">
+                    ミネラルと結びつきやすい性質（キレート）があることで知られ、美容や健康を意識する方から注目されています。
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>価格はいくら？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  定価は13,000円です。クラウドファンディング期間中は、1本10,000円（約23%オフ）から、まとめ買いで最大約42%オフになる特別価格を予定しています。詳しくは「<a
+                    href="#buy"
+                    >セットを選ぶ</a
+                  >」をご覧ください。
+                </p>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>どこで購入できる？／支払い方法は？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  すべてのセットを、このページの「<a href="#buy">セットを選ぶ</a>」から、クレジットカード（Stripeの決済ページ）で直接ご購入いただけます。お見積もり・卸のご相談は、メール（<a
+                    href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
+                    >info@wolf-g.jp</a
+                  >）に「SABIZU購入希望」とご記載のうえご連絡ください。
+                </p>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary>いつ届く？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  クラウドファンディングのプロジェクト終了後、10月末〜11月初旬に順次発送を予定しています。
+                </p>
+              </div>
+            </details>
           </div>
         </div>
       </section>
 
-      <!-- ============ ご購入・お問い合わせ ============ -->
-      <section class="section section--tint" id="contact">
-        <div class="container narrow">
-          <h2>ご購入・お問い合わせ</h2>
-          <p class="lead mt-24">
-            すべてのリターンを、当ページの「<a href="#returns">リターンを選ぶ</a>」から、クレジットカード（Stripeの決済ページ）で直接ご購入いただけます。お見積もり・卸のご相談は、メール（<a
-              href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
-              >info@wolf-g.jp</a
-            >）に「SABIZU購入希望」とご記載のうえご連絡ください。
+      <!-- ============ CTA（最後） ============ -->
+      <section class="section section--tight">
+        <div class="wrap center">
+          <p class="hero__tagline">毎日の美容習慣にプラスする、プレミアムインナーケアドリンク</p>
+          <p class="mt-12" style="font-size: 20px; font-weight: 700">
+            キレイな人は、“内側”のケアも忘れない。
           </p>
-          <p class="mt-32">
-            <a
-              class="btn btn--primary"
-              href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
-              >メールでお問い合わせ</a
-            >
+          <p class="mt-16" style="font-weight: 700">
+            クラファン特別価格
+            <span class="stat-num" style="color: var(--gold); font-size: 22px">1本10,000円〜</span>
           </p>
+          <a class="btn btn--primary btn--block btn--lg mt-16" href="#buy">価格・セットを見る</a>
 
           <!-- 食品のため、効果・効能を保証しない旨を明示する（薬機法・景品表示法の観点） -->
-          <p class="note mt-48">
+          <p class="note mt-32" style="text-align: left">
             ※本商品は食品です。疾病の診断・治療・予防を目的としたものではなく、特定の効果・効能を保証するものではありません。体調に不安のある方、通院中・服薬中の方は、医師にご相談のうえお召し上がりください。
           </p>
         </div>
       </section>
     </main>
 
+    <!--
+      フッターは表示義務のあるリンク（特定商取引法に基づく表記・プライバシーポリシー）と
+      販売者名だけに絞る。コーポレートサイトや他事業ページへの導線は、広告からの
+      流入を離脱させるため置かない。
+    -->
     <footer class="site-footer">
-      <div class="container">
-        <div class="site-footer__logo">Wolf Inc.</div>
-        <p class="mt-16">SABIZU（サビズ）キレート酵素は、株式会社Wolfが物販事業で取り扱っている商品です。</p>
-        <p class="mt-16">
-          <a href="https://wolf-g.jp/">株式会社Wolf コーポレートサイト</a>　/　<a
-            href="https://wolf-g.jp/sabizu"
-            >商品紹介ページ</a
-          >　/　<a href="https://wolf-g.jp/tokushoho">特定商取引法に基づく表記</a>　/　<a
+      <div class="wrap">
+        <p>販売者：株式会社Wolf（物販事業）／お問い合わせ：<a href="mailto:info@wolf-g.jp">info@wolf-g.jp</a></p>
+        <p class="mt-8">
+          <a href="https://wolf-g.jp/tokushoho">特定商取引法に基づく表記</a>　/　<a
             href="https://wolf-g.jp/privacy"
             >プライバシーポリシー</a
           >
         </p>
-        <p class="mt-16" style="color: #a3a3a3">© 株式会社Wolf</p>
+        <p class="mt-8" style="color: #a3a3a3">© 株式会社Wolf</p>
       </div>
     </footer>
 
-    <!--
-      スマホ用の固定CTAバー。スマホでは右カラムのステータスカードが画面外へ流れるため、
-      価格と購入導線だけを画面下に常駐させる。PC（1024px以上）では追従カードがあるので出さない。
-    -->
+    <!-- 画面下に常駐する購入導線。価格と行き先だけを出す -->
     <div class="sticky-cta">
       <div class="sticky-cta__inner">
         <div style="min-width: 0">
           <div class="sticky-cta__label">クラファン特別価格</div>
           <div class="stat-num sticky-cta__price">1本10,000円〜</div>
         </div>
-        <a class="btn btn--primary" href="#returns">リターンを選ぶ</a>
+        <a class="btn btn--primary" href="#buy">セットを見る</a>
       </div>
     </div>
   </body>
