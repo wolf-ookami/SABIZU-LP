@@ -84,11 +84,14 @@
   </head>
 
   <body>
+    <!-- 何の販売なのかを最初の1行で伝える。追従はさせない -->
+    <div class="topbar">先行販売受付｜<b>定価13,000円 → 1本10,000円〜</b></div>
+
     <main>
       <!-- ============ ファーストビュー ============
         広告LPのため、グローバルナビ（ページ内メニュー）は置かない。
         商品名 → ビジュアル → キャッチ → 価格 → 購入ボタン の順で、
-        スクロールなしで「何を・いくらで・どこから買うか」まで見せる。
+        早い段階で「何を・いくらで・どこから買うか」まで見せる。
       -->
       <section class="hero">
         <div class="wrap hero__head">
@@ -104,16 +107,13 @@
             fetchpriority="high"
             alt="SABIZU（サビズ）の商品バナー。「足す」だけじゃない。毎日を、整える。フルボ酸とミネラルを、毎日の習慣に。フルボ酸・バランスよく配合したミネラル・すっきり飲みやすい味わい・毎日の習慣に続けやすい・美容と健康に内側からサポート・安心の日本製（MADE IN JAPAN）"
           />
+          <div class="ribbon">先行販売</div>
         </div>
 
         <div class="wrap hero__body">
           <!-- キャッチコピー・タグライン（提供元支給の宣材に準拠） -->
-          <p class="hero__tagline">毎日の美容習慣にプラスする、プレミアムインナーケアドリンク</p>
-          <h1 class="mt-12">キレイな人は、“内側”のケアも忘れない。</h1>
-          <div class="divider-gold"></div>
-          <p class="lead">
-            国産の海洋性腐植土から抽出したフルボ酸エキスを使用し、鉄・カルシウム・マグネシウムなどのミネラルも含有。外側からのお手入れだけではなく、内側からの美容習慣を始めたい方に。
-          </p>
+          <p class="hero__tagline"><span class="nb">毎日の美容習慣にプラスする、</span><span class="nb">プレミアムインナーケアドリンク</span></p>
+          <h1 class="mt-12"><span class="nb">キレイな人は、</span><span class="nb">“内側”のケアも忘れない。</span></h1>
 
           <ul class="hero__points">
             <li>フルボ酸エキス配合</li>
@@ -123,30 +123,34 @@
           </ul>
 
           <!--
-            価格の要約。金額・割引率の情報源は、提供元支給の「クラファンリターン価格表」。
+            価格の見せ場。金額・割引率の情報源は、提供元支給の「クラファンリターン価格表」。
             ここと #buy 以外に価格を書かないこと。
+            二重価格表示になるため、割引の基準である定価を必ず併記する。
           -->
-          <dl class="price-box">
-            <div class="price-box__row">
-              <dt>通常価格（定価）</dt>
-              <dd><span class="price-box__strike">13,000円</span></dd>
+          <div class="price-box">
+            <div class="price-box__head">クラウドファンディング特別価格</div>
+            <div class="price-box__inner">
+              <div class="price-compare">
+                <p class="price-compare__old">通常価格（定価） <s class="stat-num">13,000円</s></p>
+                <p class="price-compare__now">
+                  <span class="stat-num price-compare__num">10,000</span>
+                  <span class="price-compare__yen">円〜</span>
+                  <span class="off-badge">定価比 最大 約42%オフ</span>
+                </p>
+              </div>
             </div>
-            <div class="price-box__row">
-              <dt>クラファン特別価格</dt>
-              <dd class="stat-num price-box__now">1本 10,000円〜</dd>
-            </div>
-            <div class="price-box__row">
+            <dl class="price-box__row">
               <dt>お届け予定</dt>
               <dd>プロジェクト終了後、10月末〜11月初旬</dd>
-            </div>
-          </dl>
-
-          <a class="btn btn--primary btn--block btn--lg mt-24" href="#buy">
-            価格・セットを見る
-          </a>
+            </dl>
+            <a class="btn btn--primary btn--block btn--lg btn--arrow" href="#buy">
+              価格・セットを見る
+            </a>
+          </div>
           <p class="note mt-12">
             クラウドファンディングでの先行販売を予定しています。期間終了後は定価13,000円での販売となります。
           </p>
+          <div class="scroll-cue"></div>
         </div>
       </section>
 
@@ -156,8 +160,11 @@
       -->
       <section class="section section--tint">
         <div class="wrap">
-          <h2>こんな方の、毎日の習慣に。</h2>
-          <ul class="check">
+          <div class="sec-head reveal">
+            <p class="sec-head__en">For You</p>
+            <h2 class="sec-head__ja">こんな方の、毎日の習慣に。</h2>
+          </div>
+          <ul class="check reveal">
             <li>外側のお手入れだけでなく、内側からの習慣も始めたい</li>
             <li>忙しくても続けられるインナーケアを探している</li>
             <li>錠剤のサプリメントが苦手で、飲みものでとりたい</li>
@@ -172,54 +179,51 @@
       <!-- ============ 商品情報 ============ -->
       <section class="section">
         <div class="wrap">
-          <p class="label">SABIZUとは</p>
+          <div class="sec-head reveal">
+            <p class="sec-head__en">About</p>
+            <h2 class="sec-head__ja">SABIZUとは</h2>
+          </div>
+
           <!-- 結論ファースト：AIがそのまま引用できる一文定義 -->
-          <p class="mt-16" style="font-size: 18px; font-weight: 500">
+          <p class="statement mt-32 reveal">
             SABIZU（サビズ）キレート酵素とは、株式会社Wolfが取り扱う、国産の海洋性腐植土から抽出したフルボ酸エキスを使用したインナーケアドリンクである。
           </p>
+          <p class="lead mt-24 reveal">
+            国産の海洋性腐植土から抽出したフルボ酸エキスを使用し、鉄・カルシウム・マグネシウムなどのミネラルも含有。外側からのお手入れだけではなく、内側からの美容習慣を始めたい方に。いつものケアにプラスして、ワンランク上の美容習慣を。
+          </p>
 
-          <div class="mt-32">
-            <div class="feature">
-              <div class="feature__no">01</div>
-              <div class="feature__body">
-                <h3>フルボ酸エキス配合</h3>
-                <p>国産の海洋性腐植土から抽出したフルボ酸エキス（海洋性腐植土抽出液）を使用しています。</p>
-              </div>
+          <div class="mt-48">
+            <div class="point reveal">
+              <div class="point__no">POINT <b>01</b></div>
+              <h3>フルボ酸エキス配合</h3>
+              <p>国産の海洋性腐植土から抽出したフルボ酸エキス（海洋性腐植土抽出液）を使用しています。</p>
             </div>
-            <div class="feature">
-              <div class="feature__no">02</div>
-              <div class="feature__body">
-                <h3>豊富なミネラル</h3>
-                <p>
-                  鉄・カルシウム・マグネシウム・亜鉛など、美容と健康を意識する方にうれしいミネラルを含有しています。
-                </p>
-              </div>
+            <div class="point reveal">
+              <div class="point__no">POINT <b>02</b></div>
+              <h3>豊富なミネラル</h3>
+              <p>
+                鉄・カルシウム・マグネシウム・亜鉛など、美容と健康を意識する方にうれしいミネラルを含有しています。
+              </p>
             </div>
-            <div class="feature">
-              <div class="feature__no">03</div>
-              <div class="feature__body">
-                <h3>すっきり飲みやすい</h3>
-                <p>毎日続けやすい、すっきりとした飲みやすいドリンクタイプです。</p>
-              </div>
+            <div class="point reveal">
+              <div class="point__no">POINT <b>03</b></div>
+              <h3>すっきり飲みやすい</h3>
+              <p>毎日続けやすい、すっきりとした飲みやすいドリンクタイプです。</p>
             </div>
-            <div class="feature">
-              <div class="feature__no">04</div>
-              <div class="feature__body">
-                <h3>保存料・着色料不使用</h3>
-                <p>保存料・着色料は使用していません。</p>
-              </div>
+            <div class="point reveal">
+              <div class="point__no">POINT <b>04</b></div>
+              <h3>保存料・着色料不使用</h3>
+              <p>保存料・着色料は使用していません。</p>
             </div>
-            <div class="feature">
-              <div class="feature__no">05</div>
-              <div class="feature__body">
-                <h3>安心の日本製</h3>
-                <p>国内で製造しています（MADE IN JAPAN）。</p>
-              </div>
+            <div class="point reveal">
+              <div class="point__no">POINT <b>05</b></div>
+              <h3>安心の日本製</h3>
+              <p>国内で製造しています（MADE IN JAPAN）。</p>
             </div>
           </div>
 
-          <h3 class="mt-48">含有ミネラル</h3>
-          <div class="minerals mt-16">
+          <h3 class="sub-head mt-48">含有ミネラル</h3>
+          <div class="minerals mt-16 reveal">
             <div class="mineral">
               <div class="mineral__name">鉄</div>
               <div class="stat-num mineral__amount">26.7mg</div>
@@ -239,26 +243,36 @@
           </div>
           <p class="note mt-8" style="text-align: right">※100mlあたり</p>
         </div>
+      </section>
 
-        <div class="figure mt-32">
-          <img
-            src="images/sabizu-lifestyle-wide.webp"
-            width="1200"
-            height="800"
-            loading="lazy"
-            alt="グラスを手にした女性とSABIZU（サビズ）のボトル。フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
-          />
+      <div class="figure">
+        <img
+          src="images/sabizu-lifestyle-wide.webp"
+          width="1200"
+          height="800"
+          loading="lazy"
+          alt="グラスを手にした女性とSABIZU（サビズ）のボトル。フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
+        />
+      </div>
+
+      <!-- ブランドステートメント。効果の標榜ではなく、成分の背景にある考え方 -->
+      <section class="band">
+        <div class="wrap">
+          <p class="band__ja"><span class="nb">真の美しさは、</span><span class="nb">大自然との調和の中に。</span></p>
+          <p class="band__en">Fulvic Acid, The Ultimate Cycle of Vitality.</p>
         </div>
       </section>
 
       <!-- ============ CTA（1回目） ============ -->
       <section class="cta-block">
-        <div class="wrap center">
+        <div class="wrap">
           <p class="hero__tagline">クラウドファンディング先行販売</p>
           <p class="mt-8" style="font-weight: 700; font-size: 18px">
-            定価13,000円のところ、<span class="stat-num" style="color: var(--gold)">1本10,000円〜</span>
+            定価13,000円のところ
+            <span class="stat-num" style="color: var(--gold-light); font-size: 24px">1本10,000円〜</span>
           </p>
-          <a class="btn btn--primary btn--block btn--lg" href="#buy">価格・セットを見る</a>
+          <a class="btn btn--primary btn--block btn--lg btn--arrow" href="#buy">価格・セットを見る</a>
+          <p class="note mt-12">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
         </div>
       </section>
 
@@ -270,10 +284,12 @@
       -->
       <section class="section section--tint">
         <div class="wrap">
-          <p class="label">Evidence</p>
-          <h2 class="mt-16">主成分「フルボ酸」の研究紹介</h2>
+          <div class="sec-head reveal">
+            <p class="sec-head__en">Evidence</p>
+            <h2 class="sec-head__ja">主成分「フルボ酸」の研究紹介</h2>
+          </div>
 
-          <div class="stack mt-24">
+          <div class="stack mt-32">
             <p class="lead">
               SABIZUの主成分であるフルボ酸（Fulvic
               Acid）は、ミネラルと結びついて運ぶキレート作用や抗酸化作用を持つことから、近年、美容や皮膚科学の分野で世界的に研究が進められている成分です。
@@ -305,7 +321,7 @@
           </div>
 
           <!-- 肌への働き（外用） -->
-          <h3 class="mt-32">肌への働き（外用）に関する研究報告</h3>
+          <h3 class="sub-head mt-32">肌への働き（外用）に関する研究報告</h3>
           <div class="mt-16">
             <details class="acc">
               <summary>湿疹への外用に関する臨床試験（ヒト・二重盲検）</summary>
@@ -397,7 +413,7 @@
           </div>
 
           <!-- エイジングケア・飲むこと -->
-          <h3 class="mt-32">エイジングケア・「飲むこと」に関する研究報告</h3>
+          <h3 class="sub-head mt-32">エイジングケア・「飲むこと」に関する研究報告</h3>
           <div class="mt-16">
             <details class="acc">
               <summary>シワ・たるみ予防（コラーゲン分解の抑制）に関する研究</summary>
@@ -491,7 +507,7 @@
           </div>
 
           <!-- 総括・背景。本文が長くなりすぎないよう畳んでおく -->
-          <h3 class="mt-32">研究報告から見えてくること</h3>
+          <h3 class="sub-head mt-32">研究報告から見えてくること</h3>
           <div class="mt-16">
             <details class="acc">
               <summary>フルボ酸の4つの側面（守る・育てる・届ける・整える）</summary>
@@ -581,9 +597,6 @@
                     その働きが注目されているのは、ヒトの分野だけではありません。環境分野では水質浄化・土壌改良・重金属の吸着といった浄化剤としての利用が、畜産分野では家畜の栄養吸収サポートなどへの活用が研究されています。自然界では常に「不要なものを排出し、必要なものを届ける」仲介者として働いており、環境・動物・ヒトの健康をひとつながりのものとして捉える「ONE
                     HEALTH（ワンヘルス）」の考え方を体現する物質として紹介されています。
                   </p>
-                  <p style="font-size: 14px; font-weight: 500">
-                    真の美しさは、大自然との調和の中に。— Fulvic Acid, The Ultimate Cycle of Vitality.
-                  </p>
                 </div>
               </div>
             </details>
@@ -604,95 +617,120 @@
       -->
       <section class="section" id="buy">
         <div class="wrap">
-          <p class="label">先行販売価格</p>
-          <h2 class="mt-16">セットを選ぶ</h2>
-          <p class="lead mt-16">
-            クラウドファンディングでの先行販売を予定しています。期間中は、定価13,000円よりお得な以下の特別価格でご提供します。
-          </p>
+          <div class="sec-head reveal">
+            <p class="sec-head__en">Price</p>
+            <h2 class="sec-head__ja">セットを選ぶ</h2>
+          </div>
+
+          <div class="price-hero mt-32 reveal">
+            <p class="price-compare__old">通常価格（定価） <s class="stat-num">13,000円</s></p>
+            <p class="price-compare__now">
+              <span class="stat-num price-compare__num">10,000</span>
+              <span class="price-compare__yen">円〜</span>
+              <span class="off-badge">定価比 最大 約42%オフ</span>
+            </p>
+            <p class="note mt-8">クラウドファンディング期間中の特別価格です</p>
+          </div>
 
           <div class="mt-24">
             <div class="plan">
-              <div class="plan__main">
-                <div class="plan__name">SABIZU 1本</div>
-                <div class="stat-num plan__price">10,000円</div>
-                <div class="plan__unit">
-                  1本あたり10,000円<span class="badge">定価比 約23%オフ</span><br />クラファン特別価格・10,000円ポッキリ
-                </div>
+              <div class="plan__head">
+                <span class="plan__name">SABIZU 1本</span>
+                <span class="badge">定価比 約23%オフ</span>
               </div>
-              <a class="btn btn--primary" href="https://buy.stripe.com/dRmcN4adr82y8lKfhw9Ve01"
-                >購入する</a
+              <div class="plan__body">
+                <span class="stat-num plan__price">10,000円</span>
+                <span class="plan__unit">1本あたり 10,000円</span>
+              </div>
+              <p class="plan__note">クラファン特別価格・10,000円ポッキリ</p>
+              <a class="btn btn--primary btn--arrow" href="https://buy.stripe.com/dRmcN4adr82y8lKfhw9Ve01"
+                >このセットを購入する</a
               >
             </div>
 
             <div class="plan">
-              <div class="plan__main">
-                <div class="plan__name">SABIZU 2本セット</div>
-                <div class="stat-num plan__price">19,000円</div>
-                <div class="plan__unit">
-                  1本あたり9,500円<span class="badge">定価比 約27%オフ</span>
-                </div>
+              <div class="plan__head">
+                <span class="plan__name">SABIZU 2本セット</span>
+                <span class="badge">定価比 約27%オフ</span>
               </div>
-              <a class="btn btn--primary" href="https://buy.stripe.com/cNi8wO71feqW1Xm9Xc9Ve02"
-                >購入する</a
+              <div class="plan__body">
+                <span class="stat-num plan__price">19,000円</span>
+                <span class="plan__unit">1本あたり 9,500円</span>
+              </div>
+              <a class="btn btn--primary btn--arrow" href="https://buy.stripe.com/cNi8wO71feqW1Xm9Xc9Ve02"
+                >このセットを購入する</a
               >
             </div>
 
             <div class="plan">
-              <div class="plan__main">
-                <div class="plan__name">SABIZU 3本セット</div>
-                <div class="stat-num plan__price">27,000円</div>
-                <div class="plan__unit">
-                  1本あたり9,000円<span class="badge">定価比 約31%オフ</span>
-                </div>
+              <div class="plan__head">
+                <span class="plan__name">SABIZU 3本セット</span>
+                <span class="badge">定価比 約31%オフ</span>
               </div>
-              <a class="btn btn--primary" href="https://buy.stripe.com/4gMeVcclz82ydG47P49Ve03"
-                >購入する</a
+              <div class="plan__body">
+                <span class="stat-num plan__price">27,000円</span>
+                <span class="plan__unit">1本あたり 9,000円</span>
+              </div>
+              <a class="btn btn--primary btn--arrow" href="https://buy.stripe.com/4gMeVcclz82ydG47P49Ve03"
+                >このセットを購入する</a
               >
             </div>
 
             <div class="plan">
-              <div class="plan__main">
-                <div class="plan__name">SABIZU 6本まとめ買い（約3ヶ月分）</div>
-                <div class="stat-num plan__price">51,000円</div>
-                <div class="plan__unit">
-                  1本あたり8,500円<span class="badge">定価比 約35%オフ</span>
-                </div>
+              <div class="plan__head">
+                <span class="plan__name">SABIZU 6本まとめ買い</span>
+                <span class="badge">定価比 約35%オフ</span>
               </div>
-              <a class="btn btn--primary" href="https://buy.stripe.com/5kQ6oGadr5UqcC0d9o9Ve04"
-                >購入する</a
+              <div class="plan__body">
+                <span class="stat-num plan__price">51,000円</span>
+                <span class="plan__unit">1本あたり 8,500円</span>
+              </div>
+              <p class="plan__note">約3ヶ月分</p>
+              <a class="btn btn--primary btn--arrow" href="https://buy.stripe.com/5kQ6oGadr5UqcC0d9o9Ve04"
+                >このセットを購入する</a
               >
             </div>
 
             <div class="plan">
-              <div class="plan__main">
-                <div class="plan__name">SABIZU 10本まとめ買い</div>
-                <div class="stat-num plan__price">80,000円</div>
-                <div class="plan__unit">
-                  1本あたり8,000円<span class="badge">定価比 約38%オフ</span>
-                </div>
+              <div class="plan__head">
+                <span class="plan__name">SABIZU 10本まとめ買い</span>
+                <span class="badge">定価比 約38%オフ</span>
               </div>
-              <a class="btn btn--primary" href="https://buy.stripe.com/8x2aEW5Xb4QmatS2uK9Ve05"
-                >購入する</a
+              <div class="plan__body">
+                <span class="stat-num plan__price">80,000円</span>
+                <span class="plan__unit">1本あたり 8,000円</span>
+              </div>
+              <a class="btn btn--primary btn--arrow" href="https://buy.stripe.com/8x2aEW5Xb4QmatS2uK9Ve05"
+                >このセットを購入する</a
               >
             </div>
 
             <div class="plan">
-              <div class="plan__main">
-                <div class="plan__name">SABIZU 100本まとめ買い（サロン・法人・卸のお客様向け）</div>
-                <div class="stat-num plan__price">750,000円</div>
-                <div class="plan__unit">
-                  1本あたり7,500円<span class="badge">定価比 約42%オフ</span>
-                </div>
+              <div class="plan__head">
+                <span class="plan__name">SABIZU 100本まとめ買い</span>
+                <span class="badge">定価比 約42%オフ</span>
               </div>
-              <a class="btn btn--primary" href="https://buy.stripe.com/aFa28qetH1Ea1Xm1qG9Ve07"
-                >購入する</a
+              <div class="plan__body">
+                <span class="stat-num plan__price">750,000円</span>
+                <span class="plan__unit">1本あたり 7,500円</span>
+              </div>
+              <p class="plan__note">サロン・法人・卸のお客様向け</p>
+              <a class="btn btn--primary btn--arrow" href="https://buy.stripe.com/aFa28qetH1Ea1Xm1qG9Ve07"
+                >このセットを購入する</a
               >
             </div>
           </div>
 
+          <h3 class="sub-head mt-48">お申し込みの流れ</h3>
+          <div class="steps">
+            <p class="step">上のセットから、ご希望の本数の「このセットを購入する」を選びます。</p>
+            <p class="step">Stripeの決済ページで、クレジットカードでお支払いいただきます。</p>
+            <p class="step">
+              クラウドファンディングのプロジェクト終了後、10月末〜11月初旬に順次発送いたします。
+            </p>
+          </div>
+
           <ul class="plain-list mt-24">
-            <li>お支払いは、クレジットカード（Stripeの決済ページ）でお手続きいただけます。</li>
-            <li>お届けは、クラウドファンディングのプロジェクト終了後、10月末〜11月初旬に順次発送予定です。</li>
             <li>クラウドファンディング限定価格のため、期間終了後は定価13,000円での販売となります。</li>
             <li>
               開始通知のご希望、お見積もり・卸のご相談は、メール（<a
@@ -707,9 +745,12 @@
       <!-- ============ Q&A ============ -->
       <section class="section section--tint">
         <div class="wrap">
-          <h2>よくあるご質問</h2>
-          <div class="mt-24">
-            <details class="acc">
+          <div class="sec-head reveal">
+            <p class="sec-head__en">Q &amp; A</p>
+            <h2 class="sec-head__ja">よくあるご質問</h2>
+          </div>
+          <div class="mt-32">
+            <details class="acc acc--qa">
               <summary>フルボ酸とは？</summary>
               <div class="acc__body">
                 <div class="stack">
@@ -723,11 +764,11 @@
               </div>
             </details>
 
-            <details class="acc">
+            <details class="acc acc--qa">
               <summary>価格はいくら？</summary>
               <div class="acc__body">
                 <p style="font-size: 14px">
-                  定価は13,000円です。クラウドファンディング期間中は、1本10,000円（約23%オフ）から、まとめ買いで最大約42%オフになる特別価格を予定しています。詳しくは「<a
+                  定価は13,000円です。クラウドファンディング期間中は、1本10,000円（定価比 約23%オフ）から、まとめ買いで最大約42%オフになる特別価格を予定しています。詳しくは「<a
                     href="#buy"
                     >セットを選ぶ</a
                   >」をご覧ください。
@@ -735,7 +776,7 @@
               </div>
             </details>
 
-            <details class="acc">
+            <details class="acc acc--qa">
               <summary>どこで購入できる？／支払い方法は？</summary>
               <div class="acc__body">
                 <p style="font-size: 14px">
@@ -747,7 +788,7 @@
               </div>
             </details>
 
-            <details class="acc">
+            <details class="acc acc--qa">
               <summary>いつ届く？</summary>
               <div class="acc__body">
                 <p style="font-size: 14px">
@@ -760,20 +801,26 @@
       </section>
 
       <!-- ============ CTA（最後） ============ -->
-      <section class="section section--tight">
-        <div class="wrap center">
-          <p class="hero__tagline">毎日の美容習慣にプラスする、プレミアムインナーケアドリンク</p>
-          <p class="mt-12" style="font-size: 20px; font-weight: 700">
-            キレイな人は、“内側”のケアも忘れない。
+      <section class="cta-block">
+        <div class="wrap">
+          <p class="hero__tagline"><span class="nb">毎日の美容習慣にプラスする、</span><span class="nb">プレミアムインナーケアドリンク</span></p>
+          <p class="mt-12" style="font-size: 21px; font-weight: 700; line-height: 1.7">
+            <span class="nb">キレイな人は、</span><span class="nb">“内側”のケアも忘れない。</span>
           </p>
           <p class="mt-16" style="font-weight: 700">
             クラファン特別価格
-            <span class="stat-num" style="color: var(--gold); font-size: 22px">1本10,000円〜</span>
+            <span class="stat-num" style="color: var(--gold-light); font-size: 24px">1本10,000円〜</span>
           </p>
-          <a class="btn btn--primary btn--block btn--lg mt-16" href="#buy">価格・セットを見る</a>
+          <a class="btn btn--primary btn--block btn--lg btn--arrow mt-16" href="#buy">
+            価格・セットを見る
+          </a>
+        </div>
+      </section>
 
-          <!-- 食品のため、効果・効能を保証しない旨を明示する（薬機法・景品表示法の観点） -->
-          <p class="note mt-32" style="text-align: left">
+      <!-- 食品のため、効果・効能を保証しない旨を明示する（薬機法・景品表示法の観点） -->
+      <section class="section--tight">
+        <div class="wrap">
+          <p class="note">
             ※本商品は食品です。疾病の診断・治療・予防を目的としたものではなく、特定の効果・効能を保証するものではありません。体調に不安のある方、通院中・服薬中の方は、医師にご相談のうえお召し上がりください。
           </p>
         </div>
@@ -808,5 +855,32 @@
         <a class="btn btn--primary" href="#buy">セットを見る</a>
       </div>
     </div>
+
+    <!--
+      スクロールに合わせて見出し・カードをふわっと出す。演出だけの処理で、
+      JSが動かない環境では最初から表示されたままになるようにしてある
+      （body に reveal-on が付いて初めて、初期状態が非表示になる）。
+    -->
+    <script>
+      (function () {
+        var items = document.querySelectorAll(".reveal");
+        if (!items.length || !("IntersectionObserver" in window)) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        document.body.classList.add("reveal-on");
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (!e.isIntersecting) return;
+              e.target.classList.add("is-in");
+              io.unobserve(e.target);
+            });
+          },
+          { rootMargin: "0px 0px -12% 0px" }
+        );
+        items.forEach(function (el) {
+          io.observe(el);
+        });
+      })();
+    </script>
   </body>
 </html>

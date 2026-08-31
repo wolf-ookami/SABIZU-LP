@@ -8,10 +8,13 @@
     多カラムのカード並びやグローバルナビは、コーポレートサイトの見え方になるため使わない。
   ・離脱先になるリンク（他ページへの導線）を本文に置かない。
     ページ内の導線は購入（#buy）だけに集約する。
+  ・セクションの見出しは .sec-head（英字ラベル＋日本語見出し＋金の罫）で統一する。
+    白 → 生成り → 黒帯 の順で地色を変え、1カラムでも切り替わりが分かるようにしている。
   ・数字と日本語に font-display（Playfair Display）を使わないこと。
     英字専用の飾り書体で、数字は線が細く読みづらく、日本語は明朝にフォールバックする。
     数字は .stat-num、日本語は既定のゴシック。Playfair はロゴと英字ラベル専用。
   ・gold（#8a6d17）は白地でも生成り地でもWCAG AAを満たす値。明るくしないこと。
+    黒地に載せる金は gold-light（#d4af37）を使う。
   ・ボタンは cta（#ffc400）を使う。gold と近い色をボタンに使うと押せる要素が識別できなくなる。
 */
 
@@ -76,7 +79,7 @@ a {
 }
 
 .section {
-  padding: 56px 0;
+  padding: 64px 0;
 }
 
 .section--tint {
@@ -84,7 +87,7 @@ a {
 }
 
 .section--tight {
-  padding: 40px 0;
+  padding: 44px 0;
 }
 
 /* ---------- 文字 ---------- */
@@ -114,12 +117,12 @@ h4 {
 
 /* 日本語の大見出しは行間を詰めすぎると、次の行の文字と重なって見える */
 h1 {
-  font-size: clamp(25px, 6.4vw, 34px);
+  font-size: clamp(26px, 6.6vw, 34px);
   line-height: 1.55;
 }
 
 h2 {
-  font-size: clamp(21px, 5vw, 26px);
+  font-size: clamp(22px, 5.2vw, 27px);
   line-height: 1.6;
 }
 
@@ -156,25 +159,77 @@ p {
   text-align: center;
 }
 
+/* 日本語の改行位置。文節ごとに inline-block で包み、語の途中で折り返さないようにする */
+.nb {
+  display: inline-block;
+}
+
 .stack > * + * {
   margin-top: 16px;
 }
 
-.divider-gold {
-  height: 1px;
-  width: 40px;
-  background: linear-gradient(to right, var(--gold), transparent);
-  margin: 20px 0;
+/* 強調した引用のような一文。定義文など */
+.statement {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 2;
+  border-left: 3px solid var(--gold);
+  padding-left: 18px;
 }
 
-/* 見出しの上に置く小さなラベル。セクションの切り替わりを1カラムでも分からせる */
-.label {
-  display: inline-block;
-  border: 1px solid rgba(138, 109, 23, 0.35);
-  padding: 3px 12px;
-  font-size: 11px;
-  letter-spacing: 0.18em;
+/* ---------- セクション見出し ----------
+   英字ラベル → 日本語見出し → 金の罫。中央寄せにするとLPらしい切り替わりになる。 */
+
+.sec-head {
+  text-align: center;
+}
+
+.sec-head__en {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
   color: var(--gold);
+}
+
+.sec-head__ja {
+  margin-top: 6px;
+}
+
+.sec-head::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  margin: 18px auto 0;
+  background: linear-gradient(to right, var(--gold-light), var(--gold));
+}
+
+.sec-head--light .sec-head__en {
+  color: var(--gold-light);
+}
+
+/* 小見出し。金の縦罫を左に立てる */
+.sub-head {
+  border-left: 3px solid var(--gold);
+  padding-left: 12px;
+  line-height: 1.6;
+}
+
+/* ---------- 告知バー ---------- */
+
+.topbar {
+  background: var(--ink-950);
+  color: var(--ink-50);
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 9px 16px;
+  line-height: 1.6;
+}
+
+.topbar b {
+  color: var(--gold-light);
 }
 
 /* ---------- ボタン ---------- */
@@ -190,16 +245,22 @@ p {
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .btn--primary {
   background: var(--cta);
   color: var(--ink-950);
+  box-shadow: 0 4px 0 #d9a600;
 }
 
 .btn--primary:hover {
   background: var(--cta-light);
+}
+
+.btn--primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #d9a600;
 }
 
 .btn--block {
@@ -207,15 +268,26 @@ p {
 }
 
 .btn--lg {
-  padding: 18px 24px;
-  font-size: 17px;
+  padding: 20px 24px;
+  font-size: 18px;
   line-height: 1.5;
+}
+
+/* ボタン末尾の矢印。押せることを形でも示す */
+.btn--arrow::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  flex-shrink: 0;
 }
 
 /* ---------- ヒーロー ---------- */
 
 .hero {
-  padding-bottom: 48px;
+  padding-bottom: 40px;
 }
 
 .hero__head {
@@ -241,6 +313,7 @@ p {
 }
 
 .hero__visual {
+  position: relative;
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border-top: 1px solid rgba(10, 10, 10, 0.1);
@@ -262,26 +335,17 @@ p {
   object-fit: cover;
 }
 
-/* 本文中の写真。ヒーローと同じ扱い */
-.figure {
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  border-top: 1px solid rgba(10, 10, 10, 0.1);
-  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
-}
-
-.figure img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-@media (min-width: 720px) {
-  .figure {
-    max-width: 680px;
-    margin: 0 auto;
-    border: 1px solid rgba(10, 10, 10, 0.1);
-  }
+/* 商品画像の隅に貼る先行販売のリボン */
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--ink-950);
+  color: var(--gold-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding: 7px 16px;
 }
 
 .hero__body {
@@ -304,20 +368,100 @@ p {
 }
 
 .hero__points li {
-  border: 1px solid rgba(10, 10, 10, 0.12);
+  position: relative;
+  border: 1px solid rgba(138, 109, 23, 0.35);
   background: var(--paper-tint);
-  padding: 5px 12px;
+  padding: 5px 12px 5px 26px;
   font-size: 13px;
   line-height: 1.6;
 }
 
-/* ---------- 価格の要約（ファーストビュー） ---------- */
+.hero__points li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(-45deg);
+}
+
+/* 次に何かあると分かるスクロールの合図 */
+.scroll-cue {
+  margin: 28px auto 0;
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(138, 109, 23, 0.6), transparent);
+}
+
+/* ---------- 価格の見せ場 ---------- */
 
 .price-box {
   margin-top: 28px;
-  border: 1px solid rgba(10, 10, 10, 0.12);
+  border: 2px solid var(--gold);
   background: var(--paper);
-  padding: 20px;
+  padding: 0 0 20px;
+}
+
+.price-box__head {
+  background: var(--gold);
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding: 7px 12px;
+}
+
+.price-box__inner {
+  padding: 18px 20px 0;
+}
+
+/* 定価 → 特別価格 の対比。二重価格表示は基準（定価）を必ず併記する */
+.price-compare {
+  text-align: center;
+}
+
+.price-compare__old {
+  font-size: 14px;
+  color: var(--ink-300);
+}
+
+.price-compare__old s {
+  font-size: 16px;
+}
+
+.price-compare__now {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.price-compare__num {
+  font-size: clamp(38px, 10vw, 48px);
+  line-height: 1.1;
+  color: var(--gold);
+}
+
+.price-compare__yen {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.off-badge {
+  display: inline-block;
+  background: var(--ink-950);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
 }
 
 .price-box__row {
@@ -325,11 +469,9 @@ p {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  font-size: 14px;
-}
-
-.price-box__row + .price-box__row {
-  margin-top: 10px;
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 20px 0;
 }
 
 .price-box__row dt {
@@ -342,55 +484,94 @@ p {
   text-align: right;
 }
 
-.price-box__strike {
-  color: var(--ink-300);
-  text-decoration: line-through;
-}
-
-.price-box__now {
-  font-size: 24px;
-  line-height: 1.3;
-  color: var(--gold);
+.price-box .btn {
+  margin: 18px 20px 0;
+  width: calc(100% - 40px);
 }
 
 /* ---------- CTAブロック（本文中で繰り返す） ---------- */
 
 .cta-block {
-  border-top: 1px solid rgba(10, 10, 10, 0.12);
-  border-bottom: 1px solid rgba(10, 10, 10, 0.12);
-  background: var(--paper-tint);
-  padding: 32px 0;
+  background: var(--ink-950);
+  color: var(--ink-50);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.cta-block .hero__tagline {
+  color: var(--gold-light);
 }
 
 .cta-block .btn {
   margin-top: 20px;
 }
 
-/* ---------- 特徴（縦並び。カードを横に並べない） ---------- */
-
-.feature {
-  border-top: 1px solid rgba(10, 10, 10, 0.1);
-  padding: 20px 0;
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+.cta-block .note {
+  color: #a3a3a3;
 }
 
-.feature:last-child {
-  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+/* ---------- ブランドステートメントの帯 ---------- */
+
+.band {
+  background: var(--ink-950);
+  color: var(--ink-50);
+  padding: 48px 0;
+  text-align: center;
 }
 
-.feature__no {
+.band__ja {
+  font-size: clamp(18px, 4.6vw, 22px);
+  font-weight: 700;
+  line-height: 1.9;
+}
+
+.band__en {
+  margin-top: 14px;
   font-family: var(--font-display);
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  color: var(--gold);
-  padding-top: 2px;
-  flex-shrink: 0;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--gold-light);
 }
 
-.feature__body p {
-  margin-top: 6px;
+/* ---------- 特徴（POINT） ---------- */
+
+.point {
+  position: relative;
+  border: 1px solid rgba(10, 10, 10, 0.12);
+  border-top: 3px solid var(--gold);
+  background: var(--paper);
+  padding: 26px 20px 22px;
+}
+
+.point + .point {
+  margin-top: 32px;
+}
+
+.point__no {
+  position: absolute;
+  top: -14px;
+  left: 16px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  background: var(--gold);
+  color: #fff;
+  padding: 3px 12px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.point__no b {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.point h3 {
+  font-size: 19px;
+}
+
+.point p {
+  margin-top: 8px;
   font-size: 14px;
   color: var(--ink-800);
 }
@@ -432,80 +613,143 @@ p {
 /* ---------- 共感チェック ---------- */
 
 .check {
-  margin: 24px 0 0;
+  margin: 28px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .check li {
   position: relative;
-  padding: 12px 0 12px 30px;
-  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  padding: 14px 16px 14px 46px;
+  background: var(--paper);
+  border: 1px solid rgba(10, 10, 10, 0.1);
   font-size: 15px;
   line-height: 1.8;
+}
+
+.check li + li {
+  margin-top: 10px;
 }
 
 .check li::before {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 20px;
-  width: 12px;
+  left: 18px;
+  top: 22px;
+  width: 13px;
   height: 7px;
-  border-left: 2px solid var(--gold);
-  border-bottom: 2px solid var(--gold);
+  border-left: 2.5px solid var(--gold);
+  border-bottom: 2.5px solid var(--gold);
   transform: rotate(-45deg);
 }
 
 /* ---------- 価格・リターン ---------- */
 
-.plan {
-  border: 1px solid rgba(10, 10, 10, 0.12);
+/* 価格セクションの頭に置く、定価との対比 */
+.price-hero {
+  border: 2px solid var(--gold);
   background: var(--paper);
-  padding: 18px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.plan {
+  border: 1px solid rgba(10, 10, 10, 0.14);
+  background: var(--paper);
+  padding: 0 0 16px;
 }
 
 .plan + .plan {
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
-.plan__main {
-  flex: 1 1 220px;
-  min-width: 0;
+.plan__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--paper-tint);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  padding: 10px 16px;
 }
 
 .plan__name {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.plan__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 14px 16px 0;
 }
 
 .plan__price {
-  font-size: 24px;
-  line-height: 1.3;
+  font-size: 26px;
+  line-height: 1.2;
   color: var(--gold);
 }
 
 .plan__unit {
   font-size: 13px;
+  color: var(--ink-800);
+}
+
+.plan__note {
+  padding: 6px 16px 0;
+  font-size: 12px;
   color: var(--ink-300);
 }
 
 .plan .btn {
-  flex: 1 1 160px;
+  margin: 14px 16px 0;
+  width: calc(100% - 32px);
 }
 
+/* 割引率のバッジ。基準（定価比）を必ず添える */
 .badge {
   display: inline-block;
-  margin-left: 8px;
   border: 1px solid rgba(138, 109, 23, 0.4);
+  background: var(--paper);
   padding: 1px 8px;
   font-size: 11px;
   color: var(--gold);
   white-space: nowrap;
+}
+
+/* ---------- お申し込みの流れ ---------- */
+
+.steps {
+  counter-reset: step;
+  margin-top: 20px;
+}
+
+.step {
+  position: relative;
+  counter-increment: step;
+  padding: 14px 0 14px 58px;
+  border-top: 1px dashed rgba(10, 10, 10, 0.18);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.step:last-child {
+  border-bottom: 1px dashed rgba(10, 10, 10, 0.18);
+}
+
+.step::before {
+  content: "STEP " counter(step);
+  position: absolute;
+  left: 0;
+  top: 16px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
 }
 
 /* ---------- 一覧 ---------- */
@@ -628,6 +872,59 @@ p {
   color: var(--ink-300);
 }
 
+/* Q&Aは頭にQ/Aの印を付ける */
+.acc--qa > summary {
+  padding-left: 48px;
+}
+
+.acc--qa > summary::before {
+  content: "Q";
+  position: absolute;
+  left: 18px;
+  top: 15px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--gold);
+}
+
+.acc--qa .acc__body {
+  position: relative;
+  padding-left: 48px;
+}
+
+.acc--qa .acc__body::before {
+  content: "A";
+  position: absolute;
+  left: 18px;
+  top: -2px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--ink-300);
+}
+
+/* ---------- 写真 ---------- */
+
+.figure {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-top: 1px solid rgba(10, 10, 10, 0.1);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+}
+
+.figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 720px) {
+  .figure {
+    max-width: 680px;
+    margin: 0 auto;
+    border: 1px solid rgba(10, 10, 10, 0.1);
+  }
+}
+
 /* ---------- フッター ---------- */
 
 .site-footer {
@@ -685,6 +982,37 @@ p {
 
 .sticky-cta .btn {
   flex: 1;
+  box-shadow: none;
+}
+
+.sticky-cta .btn:active {
+  transform: none;
+}
+
+/* ---------- スクロールで見出し・カードを出す ----------
+   JSが動かない環境では最初から表示されたままになるよう、
+   初期状態は body.reveal-on が付いたときだけ適用する。 */
+
+.reveal-on .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-on .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal-on .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ---------- 余白ユーティリティ ---------- */
@@ -694,4 +1022,5 @@ p {
 .mt-16 { margin-top: 16px; }
 .mt-24 { margin-top: 24px; }
 .mt-32 { margin-top: 32px; }
+.mt-40 { margin-top: 40px; }
 .mt-48 { margin-top: 48px; }
