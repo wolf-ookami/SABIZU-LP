@@ -89,9 +89,10 @@
 
     <main>
       <!-- ============ ファーストビュー ============
-        広告LPのため、グローバルナビ（ページ内メニュー）は置かない。
-        商品名 → ビジュアル → キャッチ → 価格 → 購入ボタン の順で、
-        早い段階で「何を・いくらで・どこから買うか」まで見せる。
+        構成順：告知バー → ブランド名 → 宣材ビジュアル → キャッチ → 要点 → 価格 → CTA。
+        グローバルナビ（ページ内メニュー）は置かない（広告LPのため）。
+        宣材には文字が焼き込まれているので、スマホは縦位置・PCは横位置の画像を出し分ける。
+        設計の意図は docs/lp-strategy.md を参照。
       -->
       <section class="hero">
         <div class="wrap hero__head">
@@ -100,20 +101,27 @@
         </div>
 
         <div class="hero__visual">
-          <img
-            src="images/sabizu-banner.webp"
-            width="1200"
-            height="800"
-            fetchpriority="high"
-            alt="SABIZU（サビズ）の商品バナー。「足す」だけじゃない。毎日を、整える。フルボ酸とミネラルを、毎日の習慣に。フルボ酸・バランスよく配合したミネラル・すっきり飲みやすい味わい・毎日の習慣に続けやすい・美容と健康に内側からサポート・安心の日本製（MADE IN JAPAN）"
-          />
+          <picture>
+            <source media="(min-width: 720px)" srcset="images/sabizu-hero-bottle.webp" />
+            <img
+              src="images/sabizu-forest-tall.webp"
+              width="1024"
+              height="1536"
+              fetchpriority="high"
+              alt="森の中に置かれたSABIZU（サビズ）のボトルとグラス。自然の力を、あなたの味方に。内側から整う新習慣。フルボ酸・ミネラル・毎日の習慣に・美容と健康に内側からサポート・安心の日本製（MADE IN JAPAN）。フルボ酸ミネラルドリンク"
+            />
+          </picture>
           <div class="ribbon">先行販売</div>
         </div>
 
         <div class="wrap hero__body">
           <!-- キャッチコピー・タグライン（提供元支給の宣材に準拠） -->
-          <p class="hero__tagline"><span class="nb">毎日の美容習慣にプラスする、</span><span class="nb">プレミアムインナーケアドリンク</span></p>
-          <h1 class="mt-12"><span class="nb">キレイな人は、</span><span class="nb">“内側”のケアも忘れない。</span></h1>
+          <p class="hero__tagline">
+            <span class="nb">毎日の美容習慣にプラスする、</span><span class="nb">プレミアムインナーケアドリンク</span>
+          </p>
+          <h1 class="mt-12">
+            <span class="nb">キレイな人は、</span><span class="nb">“内側”のケアも忘れない。</span>
+          </h1>
 
           <ul class="hero__points">
             <li>フルボ酸エキス配合</li>
@@ -123,8 +131,8 @@
           </ul>
 
           <!--
-            価格の見せ場。金額・割引率の情報源は、提供元支給の「クラファンリターン価格表」。
-            ここと #buy 以外に価格を書かないこと。
+            価格の見せ場（1か所目）。金額・割引率の情報源は、提供元支給の
+            「クラファンリターン価格表」。ここと #buy と固定バー以外に価格を書かないこと。
             二重価格表示になるため、割引の基準である定価を必ず併記する。
           -->
           <div class="price-box">
@@ -153,6 +161,26 @@
           <div class="scroll-cue"></div>
         </div>
       </section>
+
+      <!-- 数字。実在が確認できるものだけを置く（販売数・満足度は載せない） -->
+      <div class="stat-strip">
+        <div class="stat-cell">
+          <div class="stat-num stat-cell__num">500<span style="font-size: 14px">mL</span></div>
+          <div class="stat-cell__label">内容量</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num stat-cell__num">4<span style="font-size: 14px">種</span></div>
+          <div class="stat-cell__label">含有ミネラル</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num stat-cell__num">8<span style="font-size: 14px">報</span></div>
+          <div class="stat-cell__label">研究報告の紹介</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num stat-cell__num">0</div>
+          <div class="stat-cell__label">保存料・着色料</div>
+        </div>
+      </div>
 
       <!-- ============ 共感 ============
         食品のため、悩みの解消や効果を示す書き方はしない。
@@ -188,7 +216,20 @@
           <p class="statement mt-32 reveal">
             SABIZU（サビズ）キレート酵素とは、株式会社Wolfが取り扱う、国産の海洋性腐植土から抽出したフルボ酸エキスを使用したインナーケアドリンクである。
           </p>
-          <p class="lead mt-24 reveal">
+        </div>
+
+        <div class="figure mt-32">
+          <img
+            src="images/sabizu-product-simple.webp"
+            width="1536"
+            height="1024"
+            loading="lazy"
+            alt="SABIZU（サビズ）のボトルとグラス、水差し。SABIZU フルボ酸ミネラルドリンク。フルボ酸 × ミネラル。500mL / MADE IN JAPAN"
+          />
+        </div>
+
+        <div class="wrap">
+          <p class="lead mt-32 reveal">
             国産の海洋性腐植土から抽出したフルボ酸エキスを使用し、鉄・カルシウム・マグネシウムなどのミネラルも含有。外側からのお手入れだけではなく、内側からの美容習慣を始めたい方に。いつものケアにプラスして、ワンランク上の美容習慣を。
           </p>
 
@@ -247,21 +288,13 @@
 
       <div class="figure">
         <img
-          src="images/sabizu-lifestyle-wide.webp"
-          width="1200"
-          height="800"
+          src="images/sabizu-lifestyle-drink.webp"
+          width="1536"
+          height="1024"
           loading="lazy"
-          alt="グラスを手にした女性とSABIZU（サビズ）のボトル。フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
+          alt="グラスを手にした女性とSABIZU（サビズ）のボトル。SABIZU フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
         />
       </div>
-
-      <!-- ブランドステートメント。効果の標榜ではなく、成分の背景にある考え方 -->
-      <section class="band">
-        <div class="wrap">
-          <p class="band__ja"><span class="nb">真の美しさは、</span><span class="nb">大自然との調和の中に。</span></p>
-          <p class="band__en">Fulvic Acid, The Ultimate Cycle of Vitality.</p>
-        </div>
-      </section>
 
       <!-- ============ CTA（1回目） ============ -->
       <section class="cta-block">
@@ -273,6 +306,29 @@
           </p>
           <a class="btn btn--primary btn--block btn--lg btn--arrow" href="#buy">価格・セットを見る</a>
           <p class="note mt-12">お届け予定：プロジェクト終了後、10月末〜11月初旬</p>
+        </div>
+      </section>
+
+      <!-- 世界観の帯。研究紹介の前振りとして置く（効果の標榜ではない） -->
+      <div class="figure figure--tall">
+        <picture>
+          <source media="(min-width: 720px)" srcset="images/sabizu-flatlay.webp" />
+          <img
+            src="images/sabizu-nature-tall.webp"
+            width="1024"
+            height="1536"
+            loading="lazy"
+            alt="木漏れ日の中に置かれたSABIZU（サビズ）のボトルとグラス。自然の恵みを、毎日のリズムに。SABIZUは、自然由来のフルボ酸と厳選したミネラルをバランスよく配合。FULVIC ACID・MINERALS・DAILY CARE"
+          />
+        </picture>
+      </div>
+
+      <section class="band">
+        <div class="wrap">
+          <p class="band__ja">
+            <span class="nb">真の美しさは、</span><span class="nb">大自然との調和の中に。</span>
+          </p>
+          <p class="band__en">Fulvic Acid, The Ultimate Cycle of Vitality.</p>
         </div>
       </section>
 
@@ -614,6 +670,8 @@
         差し替え、案内文もあわせて直すこと。
         リンクは target="_blank" にしない。広告のアプリ内ブラウザでは新規タブが開かず、
         決済に進めないことがあるため、同一タブで Stripe に遷移させる。
+        購入ボタン（主CTA）はこのセクションにだけ置く。本文に決済リンクを散らすと、
+        どのセットを買うのか分からないまま決済ページに送ることになる。
       -->
       <section class="section" id="buy">
         <div class="wrap">
@@ -742,7 +800,11 @@
         </div>
       </section>
 
-      <!-- ============ Q&A ============ -->
+      <!-- ============ Q&A ============
+        体裁ではなく反論処理として置く。想定される断り文句（怪しい／効くの／高い／
+        定期縛りでは／味は／いつ届く／誰が売っている／返品は）に1問ずつ対応させている。
+        「効果はありますか？」はごまかさず、食品であることを正面から答える。
+      -->
       <section class="section section--tint">
         <div class="wrap">
           <div class="sec-head reveal">
@@ -765,10 +827,24 @@
             </details>
 
             <details class="acc acc--qa">
-              <summary>価格はいくら？</summary>
+              <summary>効果はありますか？</summary>
+              <div class="acc__body">
+                <div class="stack">
+                  <p style="font-size: 14px">
+                    本商品は食品です。疾病の診断・治療・予防を目的としたものではなく、特定の効果・効能を保証するものではありません。
+                  </p>
+                  <p style="font-size: 14px">
+                    当ページの「主成分『フルボ酸』の研究紹介」は、成分フルボ酸一般について学術誌に掲載された報告を出典つきでご紹介しているもので、本商品を用いた試験の結果ではありません。ヒトを対象とした研究はまだ限られている分野です。
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc acc--qa">
+              <summary>価格はいくら？／まとめ買いは安くなりますか？</summary>
               <div class="acc__body">
                 <p style="font-size: 14px">
-                  定価は13,000円です。クラウドファンディング期間中は、1本10,000円（定価比 約23%オフ）から、まとめ買いで最大約42%オフになる特別価格を予定しています。詳しくは「<a
+                  定価は13,000円です。クラウドファンディング期間中は、1本10,000円（定価比 約23%オフ）から。まとめ買いでは1本あたりの価格が下がり、100本セットで1本あたり7,500円（定価比 約42%オフ）となります。詳しくは「<a
                     href="#buy"
                     >セットを選ぶ</a
                   >」をご覧ください。
@@ -776,14 +852,24 @@
               </div>
             </details>
 
+            <!--
+              定期購入の有無。決済リンク（Stripe）は都度払いのリターン申込として用意されているが、
+              公開前に価格表・決済設定と突き合わせて、この記述で相違がないか確認すること。
+            -->
             <details class="acc acc--qa">
-              <summary>どこで購入できる？／支払い方法は？</summary>
+              <summary>定期購入ですか？</summary>
               <div class="acc__body">
                 <p style="font-size: 14px">
-                  すべてのセットを、このページの「<a href="#buy">セットを選ぶ</a>」から、クレジットカード（Stripeの決済ページ）で直接ご購入いただけます。お見積もり・卸のご相談は、メール（<a
-                    href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
-                    >info@wolf-g.jp</a
-                  >）に「SABIZU購入希望」とご記載のうえご連絡ください。
+                  クラウドファンディングの先行販売として、セット単位でその都度お申し込みいただく形です。継続課金のご登録ではありません。
+                </p>
+              </div>
+            </details>
+
+            <details class="acc acc--qa">
+              <summary>どんな味ですか？／どんな形状ですか？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  すっきりとした飲みやすいドリンクタイプで、内容量は1本500mLです。錠剤・カプセルではありません。保存料・着色料は使用していません。
                 </p>
               </div>
             </details>
@@ -796,14 +882,59 @@
                 </p>
               </div>
             </details>
+
+            <details class="acc acc--qa">
+              <summary>支払い方法は？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  クレジットカード（Stripeの決済ページ）でお支払いいただけます。「<a href="#buy">セットを選ぶ</a>」の各ボタンから、そのまま決済ページに進みます。
+                </p>
+              </div>
+            </details>
+
+            <details class="acc acc--qa">
+              <summary>販売元はどこですか？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  株式会社Wolfが物販事業で取り扱っている商品です。ご購入前のご相談・お見積もり・卸のお問い合わせは、メール（<a
+                    href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
+                    >info@wolf-g.jp</a
+                  >）で承ります。
+                </p>
+              </div>
+            </details>
+
+            <details class="acc acc--qa">
+              <summary>キャンセル・返品はできますか？</summary>
+              <div class="acc__body">
+                <p style="font-size: 14px">
+                  お申し込み後のキャンセル・返品の取り扱いは、<a href="https://wolf-g.jp/tokushoho">特定商取引法に基づく表記</a>をご確認ください。ご不明な点は、メール（<a
+                    href="mailto:info@wolf-g.jp?subject=SABIZU%E8%B3%BC%E5%85%A5%E5%B8%8C%E6%9C%9B"
+                    >info@wolf-g.jp</a
+                  >）までお問い合わせください。
+                </p>
+              </div>
+            </details>
           </div>
         </div>
       </section>
 
+      <div class="figure">
+        <img
+          src="images/sabizu-lifestyle-wide.webp"
+          width="1200"
+          height="800"
+          loading="lazy"
+          alt="グラスを手にした女性とSABIZU（サビズ）のボトル。フルボ酸ミネラルドリンク。カラダの内側から、健やかな毎日へ。Fulvic Acid × Minerals・500mL・MADE IN JAPAN"
+        />
+      </div>
+
       <!-- ============ CTA（最後） ============ -->
       <section class="cta-block">
         <div class="wrap">
-          <p class="hero__tagline"><span class="nb">毎日の美容習慣にプラスする、</span><span class="nb">プレミアムインナーケアドリンク</span></p>
+          <p class="hero__tagline">
+            <span class="nb">毎日の美容習慣にプラスする、</span><span class="nb">プレミアムインナーケアドリンク</span>
+          </p>
           <p class="mt-12" style="font-size: 21px; font-weight: 700; line-height: 1.7">
             <span class="nb">キレイな人は、</span><span class="nb">“内側”のケアも忘れない。</span>
           </p>
