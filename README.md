@@ -17,6 +17,7 @@ index.html            LP本体（1ページ完結）
 assets/styles.css     スタイル。配色・書体は wolf-g.jp と同じ値
 images/               提供元支給の宣材
 docs/lp-strategy.md   LPの設計方針（ターゲット・訴求軸・構成順・価格の見せ方・CTA・FAQ・デザイン）
+docs/lp-benchmark.md  競合LPとの比較・価格ポジション・他商材への転用案
 ```
 
 **構成や見せ方を変えるときは、先に `docs/lp-strategy.md` を読むこと。**
